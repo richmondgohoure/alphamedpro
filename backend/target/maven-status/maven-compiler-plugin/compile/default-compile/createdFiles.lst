@@ -14,7 +14,6 @@ com\alphamedpro\backend\patient\dto\PatientRequest.class
 com\alphamedpro\backend\AlphaMedProApplication.class
 com\alphamedpro\backend\garant\GarantService.class
 com\alphamedpro\backend\patientassurance\PatientAssurance.class
-com\alphamedpro\backend\DropLegacyTableMain.class
 com\alphamedpro\backend\common\ApiError.class
 com\alphamedpro\backend\assurance\AssuranceService.class
 com\alphamedpro\backend\garant\GarantController.class

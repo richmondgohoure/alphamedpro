@@ -96,9 +96,17 @@ server.port=8080
 
 | Entité    | Champs                                                                                                                                                      | Relations |
 |-----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------|
-| Patient   | nom, prénom, dateNaissance, numeroTelephone, quartier, profession                                                                                              | plusieurs-à-plusieurs avec Assurance (table `patient_assurance`) |
-| Assurance | libelle, ncc, numeroTelephone, email, prixConsultationGeneraliste, prixConsultationSpecialiste, coutB, coutZ, coutK, prixChambreTriple, prixChambreDouble, prixChambreIndividuelleSimple, prixChambreVip, prixChambreVvip | plusieurs-à-plusieurs avec Patient (partagée entre patients) et avec Garant (table `assurance_garant`) |
+| Patient   | nom, prénom, dateNaissance, numeroTelephone, quartier, profession                                                                                              | plusieurs-à-plusieurs avec Assurance, via l'entité d'association `PatientAssurance` |
+| Assurance | libelle, ncc, numeroTelephone, email, prixConsultationGeneraliste, prixConsultationSpecialiste, coutB, coutZ, coutK, prixChambreTriple, prixChambreDouble, prixChambreIndividuelleSimple, prixChambreVip, prixChambreVvip | plusieurs-à-plusieurs avec Patient (partagée entre patients, via `PatientAssurance`) et avec Garant (table `assurance_garant`) |
 | Garant    | libelle, numeroTelephone, email                                                                                                                                | plusieurs-à-plusieurs avec Assurance (un garant peut garantir plusieurs assurances) |
+| PatientAssurance | numeroMatricule (numéro matricule de l'assuré, propre à ce couple patient/assurance)                                                                    | `@ManyToOne` vers Patient et vers Assurance — table `patient_assurance` |
+
+La relation Patient ↔ Assurance n'est pas une simple table de jointure :
+elle porte une donnée métier (le **numéro matricule** de l'assuré chez
+cette assurance), qui peut être différente pour chaque patient et pour
+chaque assurance à laquelle il est affilié. Elle est donc modélisée par
+une entité d'association `PatientAssurance` (et non un `@ManyToMany`
+classique).
 
 Les tables (`patients`, `assurances`, `garants`, `patient_assurance`,
 `assurance_garant`) sont créées automatiquement par Hibernate
@@ -112,7 +120,7 @@ Chaque entité expose une API REST standard :
 |---------|------------------------|---------------------------|
 | GET     | `/api/patients`        | Liste des patients (avec leurs assurances) |
 | GET     | `/api/patients/{id}`   | Détail d'un patient |
-| POST    | `/api/patients`        | Création (`assuranceIds` : liste d'ids d'assurances existantes à associer) |
+| POST    | `/api/patients`        | Création (`assurances` : liste d'objets `{assuranceId, numeroMatricule}` — le numéro matricule de l'assuré est saisi pour chaque assurance choisie) |
 | PUT     | `/api/patients/{id}`   | Modification |
 | DELETE  | `/api/patients/{id}`   | Suppression |
 | GET     | `/api/assurances`      | Liste des assurances (avec leurs garants et le nombre de patients affiliés) |
@@ -171,11 +179,15 @@ professionnelle et apaisante.
 
 `pages/Patients.jsx` affiche la liste des patients dans un tableau
 (nom, prénom, date de naissance, téléphone, quartier, profession,
-badges des assurances associées) avec actions Modifier / Supprimer.
+badges des assurances associées avec leur numéro matricule) avec
+actions Modifier / Supprimer.
 Le bouton **Nouveau patient** ouvre `PatientForm` dans une boîte de
 dialogue (`Modal`) : saisie des informations du patient et sélection,
 via cases à cocher, des assurances existantes à lui associer
-(relation plusieurs-à-plusieurs).
+(relation plusieurs-à-plusieurs). **Dès qu'une assurance est cochée,
+un champ « Numéro matricule de l'assuré » apparaît** pour saisir le
+matricule du patient chez cette assurance — chaque assurance associée
+a son propre numéro matricule.
 
 ### 5.2ter Module Assurances
 
