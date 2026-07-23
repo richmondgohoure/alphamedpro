@@ -8,6 +8,12 @@ import { assurancesApi } from '../api/assurancesApi'
 import '../styles/table.css'
 import './Patients.css'
 
+const formatDate = (isoDate) => {
+  if (!isoDate) return null
+  const [year, month, day] = isoDate.split('-')
+  return `${day}/${month}/${year}`
+}
+
 function Patients() {
   const [patients, setPatients] = useState([])
   const [assurances, setAssurances] = useState([])
@@ -138,7 +144,7 @@ function Patients() {
                 <tr key={patient.id}>
                   <td>{patient.nom}</td>
                   <td>{patient.prenom}</td>
-                  <td>{patient.dateNaissance || '—'}</td>
+                  <td>{formatDate(patient.dateNaissance) || '—'}</td>
                   <td>{patient.numeroTelephone || '—'}</td>
                   <td>{patient.quartier || '—'}</td>
                   <td>{patient.profession || '—'}</td>
