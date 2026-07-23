@@ -1,0 +1,87 @@
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 24px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--violet-100);
+}
+
+.menu-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--violet-600);
+  color: var(--white);
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  box-shadow: 0 4px 12px var(--shadow-violet);
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.menu-button:hover {
+  background: var(--violet-700);
+}
+
+.menu-button:active {
+  transform: scale(0.97);
+}
+
+.topbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--violet-700);
+  flex: 1;
+}
+
+.topbar-logo {
+  color: var(--violet-500);
+  font-size: 20px;
+}
+
+.backend-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-muted);
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: var(--violet-50);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #b0b0b0;
+}
+
+.status-up .status-dot {
+  background: #2ecc71;
+}
+
+.status-down .status-dot {
+  background: #e74c3c;
+}
+
+.status-checking .status-dot {
+  background: #f1c40f;
+}
+
+@media (max-width: 640px) {
+  .menu-button span,
+  .backend-status {
+    display: none;
+  }
+}

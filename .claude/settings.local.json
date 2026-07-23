@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(node -v)",
+      "PowerShell(npm -v)",
+      "PowerShell(java -version)",
+      "PowerShell(mvn -v)",
+      "PowerShell(New-Item -ItemType Directory -Force -Path \"backend\\\\src\\\\main\\\\java\\\\com\\\\alphamedpro\\\\backend\\\\config\")",
+      "PowerShell(New-Item -ItemType Directory -Force -Path \"backend\\\\src\\\\main\\\\resources\")",
+      "PowerShell(New-Item -ItemType Directory -Force -Path \"backend\\\\src\\\\test\\\\java\\\\com\\\\alphamedpro\\\\backend\")"
+    ]
+  }
+}

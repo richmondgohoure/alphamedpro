@@ -1,0 +1,16 @@
+.assurances-page {
+  min-height: calc(100vh - 65px);
+  padding: 40px 24px 60px;
+  background: var(--violet-50);
+}
+
+.garants-section {
+  max-width: 1100px;
+  margin: 32px auto 0;
+}
+
+.garants-section h2 {
+  font-size: 18px;
+  color: var(--violet-800);
+  margin: 0 0 12px;
+}
