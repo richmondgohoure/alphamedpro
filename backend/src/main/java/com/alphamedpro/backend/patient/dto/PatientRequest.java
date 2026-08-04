@@ -13,6 +13,7 @@ public record PatientRequest(
         String numeroTelephone,
         String quartier,
         String profession,
+        String code,
         List<PatientAssuranceRequest> assurances
 ) {
 }

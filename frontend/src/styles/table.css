@@ -1,31 +1,31 @@
 .data-table-wrapper {
-  max-width: 1100px;
-  margin: 0 auto;
-  background: var(--white);
-  border-radius: 16px;
-  border: 1px solid var(--violet-100);
-  box-shadow: 0 8px 24px var(--shadow-violet);
-  overflow: hidden;
+  max-width: 100%;
+  margin: 0;
+  background: transparent;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  overflow: auto;
 }
 
 .data-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .data-table thead th {
   background: var(--violet-50);
   color: var(--violet-800);
   text-align: left;
-  padding: 12px 16px;
+  padding: 16px 20px;
   font-weight: 700;
   border-bottom: 1px solid var(--violet-100);
   white-space: nowrap;
 }
 
 .data-table tbody td {
-  padding: 12px 16px;
+  padding: 16px 20px;
   border-bottom: 1px solid var(--violet-100);
   color: var(--text-dark);
   vertical-align: middle;
@@ -88,4 +88,187 @@
 
 .table-action-btn.danger:hover {
   background: #fbd6d3;
+}
+
+/* Animations et transitions fluides - Niveau PRO */
+@keyframes fadeInSmooth {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOutSmooth {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes skeletonShimmer {
+  0% {
+    background: linear-gradient(90deg, #f0e6ff 0%, #e6d5ff 50%, #f0e6ff 100%);
+    background-size: 200% 100%;
+    background-position: 200% 0;
+  }
+  100% {
+    background: linear-gradient(90deg, #f0e6ff 0%, #e6d5ff 50%, #f0e6ff 100%);
+    background-size: 200% 100%;
+    background-position: -200% 0;
+  }
+}
+
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rowStagger {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tableContentFade {
+  0% {
+    opacity: 0;
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+/* Conteneur du tableau */
+.data-table-wrapper {
+  animation: tableContentFade 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Skeleton loading - Animation shimmer pro */
+.skeleton-row {
+  animation: slideUpFade 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.skeleton-row:nth-child(1) {
+  animation-delay: 0ms;
+}
+
+.skeleton-row:nth-child(2) {
+  animation-delay: 80ms;
+}
+
+.skeleton-row:nth-child(3) {
+  animation-delay: 160ms;
+}
+
+.skeleton-row:nth-child(4) {
+  animation-delay: 240ms;
+}
+
+.skeleton-row:nth-child(5) {
+  animation-delay: 320ms;
+}
+
+.skeleton-cell {
+  height: 18px;
+  background: linear-gradient(90deg, #f0e6ff 0%, #e6d5ff 50%, #f0e6ff 100%);
+  background-size: 200% 100%;
+  border-radius: 6px;
+  animation: skeletonShimmer 2.8s ease-in-out infinite;
+}
+
+/* Contenu du tableau */
+.data-table tbody tr:not(.skeleton-row):not(.empty-row) {
+  animation: rowStagger 0.7s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+}
+
+.data-table tbody tr:nth-child(1):not(.skeleton-row):not(.empty-row) {
+  animation-delay: 100ms;
+}
+
+.data-table tbody tr:nth-child(2):not(.skeleton-row):not(.empty-row) {
+  animation-delay: 150ms;
+}
+
+.data-table tbody tr:nth-child(3):not(.skeleton-row):not(.empty-row) {
+  animation-delay: 200ms;
+}
+
+.data-table tbody tr:nth-child(4):not(.skeleton-row):not(.empty-row) {
+  animation-delay: 250ms;
+}
+
+.data-table tbody tr:nth-child(5):not(.skeleton-row):not(.empty-row) {
+  animation-delay: 300ms;
+}
+
+/* États vides et erreur */
+.empty-row {
+  animation: tableContentFade 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.empty-message,
+.error-message {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 140px;
+  font-size: 1rem;
+  color: var(--text-muted);
+  animation: slideUpFade 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.error-message {
+  color: #c0392b;
+  background: linear-gradient(135deg, #fdecea 0%, #fce4e0 100%);
+  border-radius: 12px;
+  padding: 20px;
+  font-weight: 500;
+}
+
+/* Interactions tableau */
+.data-table tbody tr {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.data-table tbody tr:not(.skeleton-row):not(.empty-row):hover {
+  background: linear-gradient(90deg, transparent 0%, var(--violet-50) 50%, transparent 100%);
+  transform: translateX(2px);
+  box-shadow: inset 2px 0 8px rgba(112, 66, 193, 0.1);
+}
+
+/* Transitions du tableau */
+.data-table {
+  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.data-table tbody {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Améliorations visuelles pour les cellules */
+.data-table tbody td {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.data-table tbody tr:not(.skeleton-row):not(.empty-row):hover td {
+  color: var(--violet-900);
 }

@@ -8,6 +8,7 @@ const EMPTY_PATIENT = {
   numeroTelephone: '',
   quartier: '',
   profession: '',
+  code: '',
   assurances: [],
 }
 
@@ -81,6 +82,10 @@ function PatientForm({ initialValue, assurances, onSubmit, onCancel, submitting,
         <div className="form-field">
           <label>Profession</label>
           <input value={values.profession} onChange={handleChange('profession')} />
+        </div>
+        <div className="form-field">
+          <label>Code de la carte patient</label>
+          <input value={values.code} onChange={handleChange('code')} placeholder="Ex: ALPH-2024-001" />
         </div>
 
         <div className="form-field full-width">

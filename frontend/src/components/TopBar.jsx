@@ -1,7 +1,7 @@
-import { FaBars, FaHeartbeat } from 'react-icons/fa'
+import { FaBars, FaHeartbeat, FaSyncAlt } from 'react-icons/fa'
 import './TopBar.css'
 
-function TopBar({ onToggleMenu, isMenuOpen, backendStatus }) {
+function TopBar({ onToggleMenu, isMenuOpen, backendStatus, onRefreshBackendStatus }) {
   return (
     <header className="topbar">
       <button
@@ -25,6 +25,18 @@ function TopBar({ onToggleMenu, isMenuOpen, backendStatus }) {
         {backendStatus === 'up' && 'Serveur connecté'}
         {backendStatus === 'down' && 'Serveur hors ligne'}
         {backendStatus === 'checking' && 'Connexion...'}
+        {onRefreshBackendStatus && (
+          <button
+            type="button"
+            className="backend-status-refresh"
+            onClick={onRefreshBackendStatus}
+            disabled={backendStatus === 'checking'}
+            aria-label="Actualiser la connexion au serveur"
+            title="Actualiser la connexion"
+          >
+            <FaSyncAlt className={backendStatus === 'checking' ? 'spinning' : ''} />
+          </button>
+        )}
       </div>
     </header>
   )

@@ -33,7 +33,8 @@ AlphaMedPro/
 │       ├── common/                       # ResourceNotFoundException, GlobalExceptionHandler, ApiError
 │       ├── patient/                      # Patient (entité, repository, service, controller, dto/)
 │       ├── assurance/                     # Assurance (entité, repository, service, controller, dto/)
-│       └── garant/                        # Garant (entité, repository, service, controller, dto/)
+│       ├── garant/                        # Garant (entité, repository, service, controller, dto/)
+│       └── priseencharge/                 # PriseEnCharge (entité, repository, service, controller, dto/)
 │   └── src/main/resources/application.properties
 │
 ├── frontend/                    # application React
@@ -45,7 +46,8 @@ AlphaMedPro/
 │       │   ├── Modal.jsx / .css      # boîte de dialogue réutilisable
 │       │   ├── PageHeader.jsx / .css # en-tête de page (titre + action)
 │       │   ├── PatientForm.jsx       # formulaire patient (+ sélection assurances)
-│       │   └── AssuranceForm.jsx     # formulaire assurance (tarifs + garants inline)
+│       │   ├── AssuranceForm.jsx     # formulaire assurance (tarifs + garants inline)
+│       │   └── PriseEnChargeForm.jsx # liste + formulaire des prises en charge d'un patient
 │       ├── pages/
 │       │   ├── MainMenu.jsx / .css   # page d'accueil / tableau de bord
 │       │   ├── Patients.jsx / .css   # liste + CRUD patients
@@ -100,6 +102,7 @@ server.port=8080
 | Assurance | libelle, ncc, numeroTelephone, email, prixConsultationGeneraliste, prixConsultationSpecialiste, coutB, coutZ, coutK, prixChambreTriple, prixChambreDouble, prixChambreIndividuelleSimple, prixChambreVip, prixChambreVvip | plusieurs-à-plusieurs avec Patient (partagée entre patients, via `PatientAssurance`) et avec Garant (table `assurance_garant`) |
 | Garant    | libelle, numeroTelephone, email                                                                                                                                | plusieurs-à-plusieurs avec Assurance (un garant peut garantir plusieurs assurances) |
 | PatientAssurance | numeroMatricule (numéro matricule de l'assuré, propre à ce couple patient/assurance)                                                                    | `@ManyToOne` vers Patient et vers Assurance — table `patient_assurance` |
+| PriseEnCharge | dateDemande, motif, montant, statut (EN_ATTENTE, ACCEPTEE, REFUSEE), observation                                                                          | `@ManyToOne` vers Patient (obligatoire) et vers Assurance (optionnel) — table `prises_en_charge` |
 
 La relation Patient ↔ Assurance n'est pas une simple table de jointure :
 elle porte une donnée métier (le **numéro matricule** de l'assuré chez
@@ -133,6 +136,10 @@ Chaque entité expose une API REST standard :
 | POST    | `/api/garants`         | Création |
 | PUT     | `/api/garants/{id}`    | Modification |
 | DELETE  | `/api/garants/{id}`    | Suppression |
+| GET     | `/api/patients/{patientId}/prises-en-charge` | Liste des prises en charge d'un patient |
+| POST    | `/api/patients/{patientId}/prises-en-charge` | Création d'une prise en charge pour ce patient |
+| PUT     | `/api/prises-en-charge/{id}` | Modification |
+| DELETE  | `/api/prises-en-charge/{id}` | Suppression |
 
 Les erreurs de validation (`@Valid`) renvoient un code `400` avec le détail
 des champs invalides, et une ressource introuvable renvoie un code `404`
@@ -189,6 +196,13 @@ un champ « Numéro matricule de l'assuré » apparaît** pour saisir le
 matricule du patient chez cette assurance — chaque assurance associée
 a son propre numéro matricule.
 
+Dans la colonne d'actions du tableau, un bouton **Prise en charge**
+ouvre une boîte de dialogue listant les prises en charge déjà
+enregistrées pour ce patient (date, assurance, motif, montant, statut)
+et permettant d'en ajouter une nouvelle (assurance concernée
+optionnelle, date de la demande, motif, montant, statut, observation)
+ou d'en supprimer une existante.
+
 ### 5.2ter Module Assurances
 
 `pages/Assurances.jsx` affiche la liste des assurances (libellé, NCC,
@@ -233,8 +247,10 @@ L'application démarre sur `http://localhost:5173`.
 
 Tables actuellement créées par Hibernate : `patients`, `assurances`,
 `garants`, `patient_assurance` (jointure patient ↔ assurance),
-`assurance_garant` (jointure assurance ↔ garant). Les autres tables
-métier seront ajoutées au fur et à mesure des prochaines itérations.
+`assurance_garant` (jointure assurance ↔ garant), `prises_en_charge`
+(prises en charge d'un patient, avec assurance optionnelle). Les autres
+tables métier seront ajoutées au fur et à mesure des prochaines
+itérations.
 
 ## 7. Prochaines étapes (hors périmètre de cette itération)
 

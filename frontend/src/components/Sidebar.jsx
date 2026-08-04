@@ -7,6 +7,8 @@ import {
   FaUsers,
   FaFileInvoiceDollar,
   FaPills,
+  FaClipboardList,
+  FaHospital,
   FaCog,
   FaTimes,
   FaHeartbeat,
@@ -22,6 +24,8 @@ const MENU_ITEMS = [
   { key: 'personnel', label: 'Personnel', icon: FaUsers },
   { key: 'facturation', label: 'Facturation', icon: FaFileInvoiceDollar },
   { key: 'pharmacie', label: 'Pharmacie', icon: FaPills },
+  { key: 'actes', label: 'Gestion des actes', icon: FaClipboardList },
+  { key: 'services', label: 'Services', icon: FaHospital },
   { key: 'parametres', label: 'Paramètres', icon: FaCog },
 ]
 

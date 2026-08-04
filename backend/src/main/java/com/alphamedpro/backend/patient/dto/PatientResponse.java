@@ -13,6 +13,7 @@ public record PatientResponse(
         String numeroTelephone,
         String quartier,
         String profession,
+        String code,
         List<PatientAssuranceResponse> assurances
 ) {
     public static PatientResponse from(Patient patient) {
@@ -24,6 +25,7 @@ public record PatientResponse(
                 patient.getNumeroTelephone(),
                 patient.getQuartier(),
                 patient.getProfession(),
+                patient.getCode(),
                 patient.getAssurances().stream().map(PatientAssuranceResponse::from).toList()
         );
     }

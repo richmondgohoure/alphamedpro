@@ -41,6 +41,8 @@ public class Patient {
 
     private String profession;
 
+    private String code;
+
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PatientAssurance> assurances = new HashSet<>();
 }

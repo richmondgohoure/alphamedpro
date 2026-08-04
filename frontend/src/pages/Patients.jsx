@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
-import { FaEdit, FaTrash } from 'react-icons/fa'
+import { FaEdit, FaTrash, FaSearch, FaFileMedical } from 'react-icons/fa'
 import PageHeader from '../components/PageHeader'
 import Modal from '../components/Modal'
 import PatientForm from '../components/PatientForm'
+import PriseEnChargeForm from '../components/PriseEnChargeForm'
 import { patientsApi } from '../api/patientsApi'
 import { assurancesApi } from '../api/assurancesApi'
 import '../styles/table.css'
@@ -19,18 +20,26 @@ function Patients() {
   const [assurances, setAssurances] = useState([])
   const [loading, setLoading] = useState(true)
   const [loadError, setLoadError] = useState(null)
+  const [searchTerm, setSearchTerm] = useState('')
 
   const [editingPatient, setEditingPatient] = useState(null)
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [formError, setFormError] = useState(null)
 
-  const loadData = async () => {
+  const [cardPatient, setCardPatient] = useState(null)
+  const [cardCode, setCardCode] = useState('')
+  const [cardSubmitting, setCardSubmitting] = useState(false)
+  const [cardError, setCardError] = useState(null)
+
+  const [priseEnChargePatient, setPriseEnChargePatient] = useState(null)
+
+  const loadData = async (query = searchTerm) => {
     setLoading(true)
     setLoadError(null)
     try {
       const [patientsData, assurancesData] = await Promise.all([
-        patientsApi.list(),
+        patientsApi.list(query),
         assurancesApi.list(),
       ])
       setPatients(patientsData)
@@ -45,6 +54,17 @@ function Patients() {
   useEffect(() => {
     loadData()
   }, [])
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      loadData(searchTerm)
+    }, 300)
+    return () => clearTimeout(timer)
+  }, [searchTerm])
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value)
+  }
 
   const openCreateForm = () => {
     setEditingPatient(null)
@@ -67,6 +87,48 @@ function Patients() {
   const closeForm = () => {
     setIsFormOpen(false)
     setEditingPatient(null)
+  }
+
+  const openPriseEnCharge = (patient) => {
+    setPriseEnChargePatient(patient)
+  }
+
+  const closePriseEnCharge = () => {
+    setPriseEnChargePatient(null)
+  }
+
+  const openCardModal = (patient) => {
+    setCardPatient(patient)
+    setCardCode('')
+    setCardError(null)
+  }
+
+  const closeCardModal = () => {
+    setCardPatient(null)
+    setCardCode('')
+    setCardError(null)
+  }
+
+  const handleAssociateCard = async (e) => {
+    e.preventDefault()
+    if (!cardCode.trim()) {
+      setCardError('Le code de la carte est obligatoire')
+      return
+    }
+    setCardSubmitting(true)
+    setCardError(null)
+    try {
+      await patientsApi.update(cardPatient.id, {
+        ...cardPatient,
+        code: cardCode.trim(),
+      })
+      closeCardModal()
+      await loadData(searchTerm)
+    } catch (err) {
+      setCardError(err.message)
+    } finally {
+      setCardSubmitting(false)
+    }
   }
 
   const handleSubmit = async (payload) => {
@@ -104,9 +166,25 @@ function Patients() {
       <PageHeader
         title="Patients"
         subtitle="Liste des patients enregistrés à la clinique"
-        actionLabel="Nouveau patient"
-        onAction={openCreateForm}
       />
+
+      <div className="search-bar-wrapper">
+        <div className="search-bar">
+          <div className="search-input-group">
+            <FaSearch className="search-icon" />
+            <input
+              type="text"
+              placeholder="Rechercher par nom, prénom, téléphone ou code patient..."
+              value={searchTerm}
+              onChange={handleSearchChange}
+            />
+          </div>
+        </div>
+
+        <button type="button" className="new-patient-button" onClick={openCreateForm}>
+          + Nouveau patient
+        </button>
+      </div>
 
       <div className="data-table-wrapper">
         <table className="data-table">
@@ -124,18 +202,37 @@ function Patients() {
           </thead>
           <tbody>
             {loading && (
-              <tr className="empty-row">
-                <td colSpan={8}>Chargement...</td>
-              </tr>
+              <>
+                {[...Array(5)].map((_, i) => (
+                  <tr key={`skeleton-${i}`} className="skeleton-row">
+                    <td><div className="skeleton-cell"></div></td>
+                    <td><div className="skeleton-cell"></div></td>
+                    <td><div className="skeleton-cell"></div></td>
+                    <td><div className="skeleton-cell"></div></td>
+                    <td><div className="skeleton-cell"></div></td>
+                    <td><div className="skeleton-cell"></div></td>
+                    <td><div className="skeleton-cell"></div></td>
+                    <td><div className="skeleton-cell"></div></td>
+                  </tr>
+                ))}
+              </>
             )}
             {!loading && loadError && (
-              <tr className="empty-row">
-                <td colSpan={8}>Erreur : {loadError}</td>
+              <tr className="empty-row error-row">
+                <td colSpan={8}>
+                  <div className="error-message">
+                    <span>⚠️ Erreur : {loadError}</span>
+                  </div>
+                </td>
               </tr>
             )}
             {!loading && !loadError && patients.length === 0 && (
               <tr className="empty-row">
-                <td colSpan={8}>Aucun patient enregistré pour le moment.</td>
+                <td colSpan={8}>
+                  <div className="empty-message">
+                    <span>Aucun patient enregistré pour le moment.</span>
+                  </div>
+                </td>
               </tr>
             )}
             {!loading &&
@@ -164,9 +261,24 @@ function Patients() {
                       <button
                         type="button"
                         className="table-action-btn"
+                        onClick={() => openCardModal(patient)}
+                        title={patient.code ? `Carte: ${patient.code}` : 'Associer une carte'}
+                      >
+                        🎫 {patient.code ? 'Carte' : 'Associer carte'}
+                      </button>
+                      <button
+                        type="button"
+                        className="table-action-btn"
                         onClick={() => openEditForm(patient)}
                       >
                         <FaEdit /> Modifier
+                      </button>
+                      <button
+                        type="button"
+                        className="table-action-btn"
+                        onClick={() => openPriseEnCharge(patient)}
+                      >
+                        <FaFileMedical /> Prise en charge
                       </button>
                       <button
                         type="button"
@@ -196,6 +308,98 @@ function Patients() {
             submitting={submitting}
             serverError={formError}
           />
+        </Modal>
+      )}
+
+      {priseEnChargePatient && (
+        <Modal
+          title={`Prise en charge — ${priseEnChargePatient.prenom} ${priseEnChargePatient.nom}`}
+          onClose={closePriseEnCharge}
+          size="large"
+        >
+          <PriseEnChargeForm patient={priseEnChargePatient} />
+        </Modal>
+      )}
+
+      {cardPatient && (
+        <Modal
+          title={`Associer une carte — ${cardPatient.prenom} ${cardPatient.nom}`}
+          onClose={closeCardModal}
+        >
+          <form onSubmit={handleAssociateCard} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+            {cardError && (
+              <div style={{
+                padding: 12,
+                background: '#fdecea',
+                color: '#c0392b',
+                borderRadius: 8,
+                fontSize: 14,
+              }}>
+                {cardError}
+              </div>
+            )}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <label style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-dark)' }}>
+                Code de la carte patient
+              </label>
+              <input
+                type="text"
+                autoFocus
+                placeholder="Ex: ALPH-2024-001"
+                value={cardCode}
+                onChange={(e) => setCardCode(e.target.value)}
+                style={{
+                  padding: 12,
+                  border: '1px solid var(--violet-200)',
+                  borderRadius: 8,
+                  fontSize: 15,
+                  fontFamily: 'inherit',
+                  color: 'var(--text-dark)',
+                }}
+              />
+            </div>
+            <div style={{ display: 'flex', gap: 12, justifyContent: 'flex-end' }}>
+              <button
+                type="button"
+                onClick={closeCardModal}
+                style={{
+                  padding: '10px 24px',
+                  border: 'none',
+                  background: 'var(--violet-50)',
+                  color: 'var(--violet-700)',
+                  borderRadius: 8,
+                  cursor: 'pointer',
+                  fontSize: 14,
+                  fontWeight: 600,
+                  transition: 'all 0.2s',
+                }}
+                onMouseEnter={(e) => e.target.style.background = 'var(--violet-100)'}
+                onMouseLeave={(e) => e.target.style.background = 'var(--violet-50)'}
+              >
+                Annuler
+              </button>
+              <button
+                type="submit"
+                disabled={cardSubmitting}
+                style={{
+                  padding: '10px 24px',
+                  border: 'none',
+                  background: 'var(--violet-600)',
+                  color: 'white',
+                  borderRadius: 8,
+                  cursor: cardSubmitting ? 'not-allowed' : 'pointer',
+                  fontSize: 14,
+                  fontWeight: 600,
+                  transition: 'all 0.2s',
+                  opacity: cardSubmitting ? 0.7 : 1,
+                }}
+                onMouseEnter={(e) => !cardSubmitting && (e.target.style.background = 'var(--violet-700)')}
+                onMouseLeave={(e) => !cardSubmitting && (e.target.style.background = 'var(--violet-600)')}
+              >
+                {cardSubmitting ? 'Association...' : 'Associer'}
+              </button>
+            </div>
+          </form>
         </Modal>
       )}
     </main>

@@ -79,6 +79,41 @@
   background: #f1c40f;
 }
 
+.backend-status-refresh {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 2px;
+  font-size: 12px;
+  line-height: 0;
+}
+
+.backend-status-refresh:hover {
+  color: var(--violet-600);
+}
+
+.backend-status-refresh:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.backend-status-refresh .spinning {
+  animation: backend-status-spin 0.8s linear infinite;
+}
+
+@keyframes backend-status-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @media (max-width: 640px) {
   .menu-button span,
   .backend-status {

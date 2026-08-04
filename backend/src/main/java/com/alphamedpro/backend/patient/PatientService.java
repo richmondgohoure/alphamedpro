@@ -21,8 +21,14 @@ public class PatientService {
     private final PatientRepository patientRepository;
     private final AssuranceRepository assuranceRepository;
 
-    public List<PatientResponse> findAll() {
-        return patientRepository.findAll().stream().map(PatientResponse::from).toList();
+    public List<PatientResponse> findAll(String query) {
+        List<Patient> patients;
+        if (query != null && !query.isBlank()) {
+            patients = patientRepository.search(query);
+        } else {
+            patients = patientRepository.findAll();
+        }
+        return patients.stream().map(PatientResponse::from).toList();
     }
 
     public PatientResponse findById(Long id) {
@@ -58,6 +64,7 @@ public class PatientService {
         patient.setNumeroTelephone(request.numeroTelephone());
         patient.setQuartier(request.quartier());
         patient.setProfession(request.profession());
+        patient.setCode(request.code());
 
         patient.getAssurances().clear();
         List<PatientAssuranceRequest> assuranceRequests = request.assurances();
