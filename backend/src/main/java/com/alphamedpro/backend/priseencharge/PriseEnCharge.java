@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "prises_en_charge")
@@ -39,11 +39,26 @@ public class PriseEnCharge {
     @JoinColumn(name = "assurance_id")
     private Assurance assurance;
 
-    private LocalDate dateDemande;
+    private LocalDateTime dateDemande;
 
     private String motif;
 
     private BigDecimal montant;
+
+    private String typeCouverture; // POURCENTAGE ou FORFAIT
+
+    private BigDecimal tauxCouverture;
+
+    private BigDecimal montantForfait;
+
+    private BigDecimal montantTotal;
+
+    private BigDecimal partAssurance;
+
+    private BigDecimal partPatient;
+
+    @jakarta.persistence.Column(columnDefinition = "TEXT")
+    private String detailsActes;
 
     @Enumerated(EnumType.STRING)
     private StatutPriseEnCharge statut;

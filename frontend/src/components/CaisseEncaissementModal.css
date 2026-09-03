@@ -1,0 +1,838 @@
+/* Modal de Caisse & Encaissement */
+.caisse-modal-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.caisse-modal-loading,
+.caisse-modal-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  gap: 16px;
+}
+
+.caisse-spinner {
+  width: 36px;
+  height: 36px;
+  border: 4px solid var(--violet-100);
+  border-top-color: var(--violet-600);
+  border-radius: 50%;
+  animation: caisse-spin 0.8s linear infinite;
+}
+
+@keyframes caisse-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Bannière Patient & Visite */
+.caisse-patient-banner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 14px 18px;
+}
+
+.caisse-patient-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--violet-600), var(--violet-800));
+  color: #fff;
+  font-size: 18px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(109, 40, 217, 0.25);
+  flex-shrink: 0;
+}
+
+.caisse-patient-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.caisse-patient-name-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.caisse-patient-name-row h3 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.caisse-visite-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #ede9fe;
+  color: #6d28d9;
+  border: 1px solid #ddd6fe;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 800;
+  font-family: ui-monospace, monospace;
+}
+
+.caisse-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.caisse-status-badge.status-paye {
+  background: #dcfce7;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+
+.caisse-status-badge.status-partiellement_paye {
+  background: #e0f2fe;
+  color: #0369a1;
+  border: 1px solid #bae6fd;
+}
+
+.caisse-status-badge.status-non_paye {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+.caisse-patient-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12.5px;
+  color: #64748b;
+  flex-wrap: wrap;
+}
+
+.caisse-versements-count {
+  color: #047857;
+  font-weight: 700;
+  background: #ecfdf5;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+/* Layout Grid 2 Colonnes */
+.caisse-layout-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 18px;
+}
+
+@media (max-width: 960px) {
+  .caisse-layout-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Panneau Gauche : Sous-Factures */
+.caisse-left-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.caisse-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.caisse-panel-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.caisse-btn-select-all {
+  background: none;
+  border: none;
+  color: var(--violet-700);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 2px 4px;
+}
+
+.caisse-btn-select-all:hover {
+  color: var(--violet-900);
+}
+
+.caisse-sf-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 520px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.caisse-sf-card {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 12px;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.caisse-sf-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.caisse-sf-card.is-selected {
+  border-color: var(--violet-500);
+  background: #faf5ff;
+  box-shadow: 0 2px 10px rgba(109, 40, 217, 0.08);
+}
+
+.caisse-sf-card.is-paid {
+  opacity: 0.75;
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+.caisse-sf-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.caisse-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.caisse-checkbox-label input[type='checkbox'] {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--violet-600);
+  cursor: pointer;
+}
+
+.caisse-sf-num {
+  font-family: ui-monospace, monospace;
+  font-weight: 800;
+  font-size: 13px;
+  color: #1e293b;
+}
+
+.caisse-cat-tag {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: #e2e8f0;
+  color: #334155;
+}
+
+.caisse-cat-tag.cat-co {
+  background: #f3e8ff;
+  color: #6b21a8;
+}
+
+.caisse-cat-tag.cat-eb {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.caisse-cat-tag.cat-ra,
+.caisse-cat-tag.cat-sc,
+.caisse-cat-tag.cat-ec {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+
+.caisse-sf-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.caisse-sf-badge.status-paye {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.caisse-sf-badge.status-partiellement_paye {
+  background: #e0f2fe;
+  color: #075985;
+}
+
+.caisse-sf-badge.status-non_paye {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.caisse-sf-amounts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  background: #f8fafc;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #f1f5f9;
+}
+
+.caisse-amount-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.caisse-amount-item .lbl {
+  font-size: 10.5px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.caisse-amount-item .val {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.caisse-amount-item.highlight {
+  background: #f3e8ff;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.caisse-amount-item.reste-item {
+  background: #fff1f2;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.text-blue {
+  color: #0284c7 !important;
+}
+
+.text-purple {
+  color: #7c3aed !important;
+}
+
+.text-orange {
+  color: #ea580c !important;
+}
+
+.text-green {
+  color: #16a34a !important;
+}
+
+.text-danger {
+  color: #dc2626 !important;
+}
+
+.caisse-sf-practitioner,
+.caisse-sf-assurance {
+  font-size: 11.5px;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.mini-icon {
+  font-size: 11px;
+}
+
+.btn-toggle-details {
+  background: none;
+  border: none;
+  color: var(--violet-600);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 0;
+}
+
+.caisse-details-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 6px;
+  font-size: 11px;
+}
+
+.caisse-details-table th,
+.caisse-details-table td {
+  padding: 4px 6px;
+  border-bottom: 1px solid #f1f5f9;
+  text-align: left;
+}
+
+.caisse-details-table th {
+  background: #f1f5f9;
+  color: #475569;
+  font-weight: 700;
+}
+
+/* Panneau Droit : Règlement */
+.caisse-right-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.caisse-summary-box {
+  background: #ffffff;
+  border: 1.5px solid var(--violet-200);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 14px rgba(109, 40, 217, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.caisse-summary-header {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--violet-900);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--violet-100);
+  padding-bottom: 8px;
+}
+
+.caisse-summary-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13.5px;
+  color: #334155;
+}
+
+.caisse-summary-row .summary-val {
+  font-weight: 800;
+  color: #0f172a;
+  font-size: 15px;
+}
+
+/* Remise Section */
+.caisse-remise-section {
+  background: #fff7ed;
+  border: 1px solid #ffedd5;
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.caisse-remise-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.remise-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #9a3412;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.remise-type-toggle {
+  display: flex;
+  background: #fed7aa;
+  border-radius: 4px;
+  padding: 2px;
+}
+
+.btn-toggle-type {
+  border: none;
+  background: none;
+  font-size: 11px;
+  font-weight: 700;
+  color: #9a3412;
+  padding: 2px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.btn-toggle-type.active {
+  background: #ea580c;
+  color: #ffffff;
+}
+
+.caisse-remise-inputs {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 8px;
+}
+
+.remise-input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.remise-input-group .caisse-input {
+  padding-right: 42px;
+}
+
+.input-suffix {
+  position: absolute;
+  right: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #9a3412;
+  pointer-events: none;
+}
+
+.remise-applied-pill {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #c2410c;
+  background: #ffedd5;
+  padding: 3px 8px;
+  border-radius: 4px;
+  align-self: flex-start;
+}
+
+/* Net à payer banner */
+.caisse-net-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, var(--violet-900) 0%, #4c1d95 100%);
+  color: #ffffff;
+  padding: 12px 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(76, 29, 149, 0.2);
+}
+
+.net-label {
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+.net-value {
+  font-size: 20px;
+  font-weight: 900;
+  color: #fef08a;
+  letter-spacing: 0.5px;
+}
+
+/* Versement Input */
+.caisse-versement-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.section-label {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.versement-input-group {
+  display: flex;
+  gap: 8px;
+}
+
+.caisse-input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f172a;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.caisse-input:focus {
+  border-color: var(--violet-600);
+}
+
+.caisse-input.input-large {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--violet-950);
+}
+
+.btn-quick-fill {
+  background: var(--violet-100);
+  border: 1px solid var(--violet-300);
+  color: var(--violet-800);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 0 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.btn-quick-fill:hover {
+  background: var(--violet-200);
+}
+
+/* Payment Feedback */
+.feedback-badge {
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.feedback-badge.tranche-badge {
+  background: #eff6ff;
+  color: #1e40af;
+  border: 1px solid #bfdbfe;
+}
+
+.feedback-badge.monnaie-badge {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+
+.feedback-badge.solde-badge {
+  background: #dcfce7;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* Modes Grid */
+.caisse-modes-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+@media (max-width: 640px) {
+  .caisse-modes-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.caisse-mode-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 4px;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.caisse-mode-card:hover {
+  border-color: #cbd5e1;
+  background: #f1f5f9;
+}
+
+.caisse-mode-card.active {
+  border-color: var(--violet-600);
+  background: #f5f3ff;
+  box-shadow: 0 2px 8px rgba(109, 40, 217, 0.15);
+}
+
+.mode-icon {
+  font-size: 16px;
+}
+
+.mode-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #1e293b;
+  text-align: center;
+}
+
+/* Meta Grid */
+.caisse-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.caisse-meta-grid .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.caisse-meta-grid label {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.caisse-submit-btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 800;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(135deg, var(--violet-700), var(--violet-900));
+  box-shadow: 0 4px 12px rgba(109, 40, 217, 0.25);
+  cursor: pointer;
+}
+
+.caisse-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Historique */
+.caisse-history-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.caisse-history-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #334155;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 4px;
+}
+
+.caisse-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.caisse-history-item {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.history-num-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.history-recu-num {
+  font-family: ui-monospace, monospace;
+  font-weight: 800;
+  font-size: 12px;
+  color: var(--violet-700);
+}
+
+.history-date {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.history-meta-row {
+  font-size: 11px;
+  color: #475569;
+  display: flex;
+  gap: 8px;
+}
+
+.history-amount-action {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.history-amount {
+  font-size: 13px;
+  font-weight: 800;
+  color: #15803d;
+}
+
+.btn-print-mini {
+  background: #ede9fe;
+  color: #6d28d9;
+  border: 1px solid #ddd6fe;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-print-mini:hover {
+  background: #ddd6fe;
+}

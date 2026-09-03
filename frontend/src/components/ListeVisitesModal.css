@@ -1,0 +1,797 @@
+/* Styles pour ListeVisitesModal */
+
+.lvm-modal-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.lvm-title-icon {
+  font-size: 1.4rem;
+  color: var(--violet-600, #7c3aed);
+}
+
+.lvm-modal-subtitle {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.lvm-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 4px;
+}
+
+/* Panneau de filtres et recherche */
+.lvm-filters-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #faf5ff;
+  border: 1px solid var(--violet-100, #ede9fe);
+  border-radius: 12px;
+  padding: 14px 18px;
+}
+
+.lvm-search-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.lvm-search-input-group {
+  position: relative;
+  flex: 1;
+  min-width: 240px;
+  display: flex;
+  align-items: center;
+}
+
+.lvm-search-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--violet-500, #8b5cf6);
+  font-size: 14px;
+  pointer-events: none;
+}
+
+.lvm-search-input-group input {
+  width: 100%;
+  padding: 9px 34px 9px 36px;
+  border: 1px solid var(--violet-200, #ddd6fe);
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-family: inherit;
+  color: var(--text-dark, #1e293b);
+  background: #ffffff;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.lvm-search-input-group input:focus {
+  border-color: var(--violet-500, #8b5cf6);
+  box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.12);
+}
+
+.lvm-clear-btn {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.lvm-clear-btn:hover {
+  color: #ef4444;
+}
+
+.lvm-date-filter-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.lvm-date-icon {
+  position: absolute;
+  left: 12px;
+  color: #64748b;
+  font-size: 13px;
+  pointer-events: none;
+}
+
+.lvm-date-filter-group input {
+  padding: 9px 30px 9px 32px;
+  border: 1px solid var(--violet-200, #ddd6fe);
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: inherit;
+  background: #ffffff;
+  color: #334155;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.lvm-date-filter-group input:focus {
+  border-color: var(--violet-500, #8b5cf6);
+}
+
+.lvm-clear-date-btn {
+  position: absolute;
+  right: 8px;
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+}
+
+.lvm-refresh-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: white;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.lvm-refresh-btn:hover:not(:disabled) {
+  background: #f8fafc;
+  color: var(--violet-700, #6d28d9);
+  border-color: var(--violet-400, #a78bfa);
+}
+
+.lvm-refresh-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Onglets de statut */
+.lvm-status-tabs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.lvm-tab {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border: 1px solid var(--violet-200, #ddd6fe);
+  background: white;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lvm-tab:hover {
+  background: #ede9fe;
+  color: var(--violet-800, #5b21b6);
+}
+
+.lvm-tab.active {
+  background: var(--violet-600, #7c3aed);
+  color: white;
+  border-color: var(--violet-600, #7c3aed);
+  box-shadow: 0 2px 6px rgba(124, 58, 237, 0.25);
+}
+
+.lvm-tab-non-paye.active {
+  background: #dc2626;
+  border-color: #dc2626;
+  box-shadow: 0 2px 6px rgba(220, 38, 38, 0.25);
+}
+
+.lvm-tab-partiel.active {
+  background: #0284c7;
+  border-color: #0284c7;
+  box-shadow: 0 2px 6px rgba(2, 132, 199, 0.25);
+}
+
+.lvm-tab-paye.active {
+  background: #16a34a;
+  border-color: #16a34a;
+  box-shadow: 0 2px 6px rgba(22, 163, 74, 0.25);
+}
+
+/* Bandeau Statistiques */
+.lvm-stats-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 12px 18px;
+}
+
+.lvm-stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.lvm-stat-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b;
+}
+
+.lvm-stat-val {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #1e293b;
+}
+
+.text-violet {
+  color: var(--violet-700, #6d28d9) !important;
+}
+
+.text-assurance {
+  color: #0369a1 !important;
+}
+
+.text-patient {
+  color: #15803d !important;
+}
+
+.text-reste {
+  color: #b91c1c !important;
+}
+
+/* Loading & Error */
+.lvm-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  gap: 12px;
+  color: #64748b;
+}
+
+.lvm-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid #e2e8f0;
+  border-top-color: var(--violet-600, #7c3aed);
+  border-radius: 50%;
+  animation: lvm-spin 0.8s linear infinite;
+}
+
+@keyframes lvm-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.lvm-error-banner {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+
+.lvm-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+  background: #f8fafc;
+  border: 2px dashed #e2e8f0;
+  border-radius: 14px;
+  color: #64748b;
+  gap: 8px;
+}
+
+.lvm-empty-icon {
+  font-size: 2.4rem;
+  color: #cbd5e1;
+  margin-bottom: 4px;
+}
+
+.lvm-empty-state h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #334155;
+  font-weight: 700;
+}
+
+.lvm-empty-state p {
+  margin: 0;
+  font-size: 0.88rem;
+  max-width: 420px;
+}
+
+/* Liste des Visites */
+.lvm-visites-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.lvm-visite-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.lvm-visite-card:hover {
+  border-color: var(--violet-300, #c4b5fd);
+  box-shadow: 0 3px 10px rgba(109, 40, 217, 0.08);
+}
+
+.lvm-visite-card.is-expanded {
+  border-color: var(--violet-400, #a78bfa);
+  box-shadow: 0 4px 14px rgba(109, 40, 217, 0.12);
+}
+
+/* En-tête de carte visite */
+.lvm-visite-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 18px;
+  cursor: pointer;
+  background: #ffffff;
+  transition: background 0.15s ease;
+  flex-wrap: wrap;
+}
+
+.lvm-visite-card.is-expanded .lvm-visite-card-header {
+  background: #faf5ff;
+  border-bottom: 1px solid var(--violet-100, #ede9fe);
+}
+
+.lvm-visite-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.lvm-visite-num-badge {
+  background: #2e1065;
+  color: #fbbf24;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 800;
+  font-size: 0.88rem;
+  padding: 4px 10px;
+  border-radius: 6px;
+  letter-spacing: 0.03em;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.lvm-patient-identity-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f8fafc;
+  padding: 4px 10px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.lvm-patient-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.lvm-pat-icon {
+  color: var(--violet-600, #7c3aed);
+  font-size: 0.9rem;
+}
+
+.lvm-dossier-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  background: #ede9fe;
+  color: #5b21b6;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid #ddd6fe;
+}
+
+.lvm-visite-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+/* Statuts */
+.lvm-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 20px;
+}
+
+.lvm-status-paye {
+  background: #dcfce7;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+
+.lvm-status-partiel {
+  background: #e0f2fe;
+  color: #0369a1;
+  border: 1px solid #bae6fd;
+}
+
+.lvm-status-non-paye {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+.lvm-visite-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.lvm-visite-edit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: linear-gradient(135deg, var(--violet-600, #7c3aed), var(--violet-700, #6d28d9));
+  color: #ffffff;
+  border: none;
+  padding: 5px 11px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  box-shadow: 0 2px 5px rgba(109, 40, 217, 0.25);
+}
+
+.lvm-visite-edit-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--violet-700, #6d28d9), var(--violet-800, #5b21b6));
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(109, 40, 217, 0.35);
+}
+
+.lvm-visite-edit-btn:disabled {
+  opacity: 0.5;
+  background: #94a3b8;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.lvm-sf-section-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.lvm-visite-edit-btn-inline {
+  background: #f5f3ff;
+  color: var(--violet-700, #6d28d9);
+  border: 1px solid var(--violet-300, #c4b5fd);
+  box-shadow: none;
+}
+
+.lvm-visite-edit-btn-inline:hover:not(:disabled) {
+  background: var(--violet-700, #6d28d9);
+  color: #ffffff;
+  border-color: var(--violet-700, #6d28d9);
+}
+
+.lvm-visite-amounts-mini {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.lvm-amount-item {
+  font-size: 0.82rem;
+  color: #475569;
+}
+
+.lvm-amount-item small {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin-right: 2px;
+}
+
+.lvm-amount-item strong {
+  font-size: 0.88rem;
+}
+
+.lvm-toggle-btn {
+  background: none;
+  border: 1px solid #cbd5e1;
+  color: #64748b;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lvm-toggle-btn:hover {
+  background: var(--violet-100, #ede9fe);
+  color: var(--violet-700, #6d28d9);
+  border-color: var(--violet-300, #c4b5fd);
+}
+
+/* Corps de carte visite déplié */
+.lvm-visite-card-body {
+  padding: 16px 18px;
+  background: #fafafa;
+}
+
+.lvm-sousfactures-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.lvm-sf-section-title {
+  margin: 0;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.lvm-sf-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.lvm-sf-item-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lvm-sf-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.lvm-sf-category-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.lvm-cat-icon {
+  font-size: 1.1rem;
+  color: var(--violet-600, #7c3aed);
+  background: #ede9fe;
+  padding: 6px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+}
+
+.lvm-cat-label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1e293b;
+  display: block;
+}
+
+.lvm-sf-num {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #64748b;
+  display: block;
+}
+
+.lvm-sf-header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.lvm-sf-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lvm-sf-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 9px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.lvm-sf-edit-btn {
+  background: #eff6ff;
+  color: #2563eb;
+  border-color: #bfdbfe;
+}
+
+.lvm-sf-edit-btn:hover:not(:disabled) {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+}
+
+.lvm-sf-delete-btn {
+  background: #fef2f2;
+  color: #dc2626;
+  border-color: #fecaca;
+}
+
+.lvm-sf-delete-btn:hover:not(:disabled) {
+  background: #dc2626;
+  color: #ffffff;
+  border-color: #dc2626;
+}
+
+.lvm-sf-action-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  background: #f1f5f9;
+  color: #94a3b8;
+  border-color: #e2e8f0;
+}
+
+.lvm-practitioner-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #f0fdf4;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.lvm-no-practitioner {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  font-style: italic;
+}
+
+/* Tableau détails actes */
+.lvm-sf-details-table-wrap {
+  overflow-x: auto;
+}
+
+.lvm-sf-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.lvm-sf-table th {
+  background: #f8fafc;
+  color: #64748b;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.lvm-sf-table td {
+  padding: 7px 10px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+}
+
+.lvm-det-formula {
+  display: block;
+  font-size: 0.72rem;
+  color: #64748b;
+  font-family: monospace;
+}
+
+.lvm-sf-totals-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  padding-top: 6px;
+  border-top: 1px dashed #e2e8f0;
+  font-size: 0.82rem;
+  flex-wrap: wrap;
+}
+
+.lvm-sf-total-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lvm-sf-total-group span {
+  color: #64748b;
+  font-size: 0.76rem;
+}
+
+.lvm-sf-total-group strong {
+  font-size: 0.86rem;
+}
+
+.lvm-no-sf {
+  font-size: 0.82rem;
+  color: #94a3b8;
+  font-style: italic;
+  margin: 0;
+}
+
+/* Modal Footer */
+.lvm-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 8px;
+  border-top: 1px solid #e2e8f0;
+}

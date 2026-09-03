@@ -1,0 +1,5 @@
+com\alphamedpro\backend\patient\PatientServiceTest.class
+com\alphamedpro\backend\dossierpatient\DossierPatientServiceTest.class
+com\alphamedpro\backend\medecin\MedecinServiceTest.class
+com\alphamedpro\backend\caisse\CaisseServiceTest.class
+com\alphamedpro\backend\visite\VisiteServiceTest.class

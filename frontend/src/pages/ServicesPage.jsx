@@ -109,7 +109,7 @@ function ServicesPage() {
             <thead>
               <tr>
                 <th>Libellé</th>
-                <th></th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>

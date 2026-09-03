@@ -1,0 +1,1438 @@
+/* ==========================================================================
+   PAGE DE GESTION DU CORPS MÉDICAL & PRATICIENS (MEDECINS)
+   ========================================================================== */
+
+.medecins-management-page {
+  padding: 24px;
+  max-width: 1440px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ==========================================================================
+   1. KPI STATISTIQUES CARDS
+   ========================================================================== */
+.medecins-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.medecin-kpi-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 20px 24px;
+  background: white;
+  border-radius: 18px;
+  border: 1.5px solid var(--violet-100, #ede9fe);
+  box-shadow: 0 4px 20px rgba(124, 58, 237, 0.05);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.medecin-kpi-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(124, 58, 237, 0.12);
+  border-color: var(--violet-300, #c4b5fd);
+}
+
+.kpi-card-glow {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  opacity: 0.12;
+  pointer-events: none;
+  filter: blur(20px);
+}
+
+.total-glow {
+  background: #7c3aed;
+}
+
+.interne-glow {
+  background: #10b981;
+}
+
+.externe-glow {
+  background: #0284c7;
+}
+
+.spec-glow {
+  background: #f59e0b;
+}
+
+.kpi-icon-wrapper {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  flex-shrink: 0;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease;
+}
+
+.medecin-kpi-card:hover .kpi-icon-wrapper {
+  transform: scale(1.08) rotate(3deg);
+}
+
+.kpi-icon-wrapper.total-icon {
+  background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
+  color: var(--violet-700, #6d28d9);
+  border: 1px solid #c4b5fd;
+}
+
+.kpi-icon-wrapper.interne-icon {
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  color: #059669;
+  border: 1px solid #86efac;
+}
+
+.kpi-icon-wrapper.externe-icon {
+  background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+  color: #0284c7;
+  border: 1px solid #7dd3fc;
+}
+
+.kpi-icon-wrapper.spec-icon {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  color: #d97706;
+  border: 1px solid #fcd34d;
+}
+
+.kpi-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.kpi-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #64748b;
+}
+
+.kpi-value {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+}
+
+.kpi-subtext {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.kpi-badge-pct {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.kpi-badge-pct.interne-pct {
+  background: #dcfce7;
+  color: #059669;
+}
+
+.kpi-badge-pct.externe-pct {
+  background: #e0f2fe;
+  color: #0284c7;
+}
+
+/* ==========================================================================
+   2. SECTION DE GESTION PRINCIPALE
+   ========================================================================== */
+.medecin-section {
+  background: var(--white, white);
+  border-radius: 14px;
+  border: 1px solid var(--violet-200, #ddd6fe);
+  padding: 0;
+  box-shadow: 0 4px 16px var(--shadow-violet, rgba(124, 58, 237, 0.06));
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.medecin-section .data-table-wrapper {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  max-height: 62vh;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+.medecin-icon {
+  background: linear-gradient(135deg, var(--violet-600, #7c3aed), var(--violet-800, #5b21b6)) !important;
+  color: white !important;
+  box-shadow: 0 6px 16px rgba(124, 58, 237, 0.35) !important;
+}
+
+.pulse-indicator {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #10b981;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: pulse-dot 2s infinite;
+  margin-right: 4px;
+}
+
+@keyframes pulse-dot {
+  0% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+/* ==========================================================================
+   3. TOOLBAR ET FILTRES
+   ========================================================================== */
+.medecins-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 20px;
+  background: #faf5ff;
+  border-bottom: 1px solid var(--violet-100, #ede9fe);
+}
+
+.medecins-toolbar .search-box {
+  position: relative;
+  flex: 1 1 320px;
+  min-width: 280px;
+}
+
+.medecins-toolbar .search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  font-size: 1rem;
+}
+
+.medecins-toolbar .search-input {
+  width: 100%;
+  padding: 11px 40px 11px 42px;
+  background: white;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 0.92rem;
+  color: #1e293b;
+  transition: all 0.25s ease;
+  box-sizing: border-box;
+}
+
+.medecins-toolbar .search-input:focus {
+  border-color: var(--violet-500, #8b5cf6);
+  box-shadow: 0 0 0 3.5px rgba(139, 92, 246, 0.15);
+  outline: none;
+}
+
+.clear-search-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.clear-search-btn:hover {
+  color: #e11d48;
+  background: #ffe4e6;
+}
+
+.toolbar-filters-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Tabs Type (Tous / Internes / Externes) */
+.type-filter-tabs {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--white, white);
+  padding: 6px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--violet-200, #ddd6fe);
+  box-shadow: 0 2px 8px var(--shadow-violet, rgba(124, 58, 237, 0.06));
+}
+
+.type-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--violet-700, #6d28d9);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.type-tab:hover {
+  background: var(--violet-50, #f5f3ff);
+  color: var(--violet-900, #4c1d95);
+}
+
+.type-tab.active {
+  background: var(--violet-700, #6d28d9);
+  color: white;
+  box-shadow: 0 2px 6px rgba(109, 40, 217, 0.3);
+}
+
+.type-tab.internal.active,
+.type-tab.external.active {
+  background: var(--violet-700, #6d28d9);
+  color: white;
+}
+
+.tab-icon {
+  font-size: 0.9rem;
+}
+
+/* Sélecteur de spécialités */
+.specialite-filter-wrapper {
+  position: relative;
+}
+
+.specialite-filter-select {
+  padding: 8px 14px;
+  border: 1px solid var(--violet-200, #ddd6fe);
+  border-radius: 8px;
+  background: var(--white, white);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--violet-700, #6d28d9);
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.specialite-filter-select:focus {
+  border-color: var(--violet-500, #8b5cf6);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+}
+
+/* Mode Switcher (Tableau vs Cartes) */
+.view-mode-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--white, white);
+  padding: 4px;
+  border-radius: 10px;
+  border: 1px solid var(--violet-200, #ddd6fe);
+  box-shadow: 0 2px 8px var(--shadow-violet, rgba(124, 58, 237, 0.06));
+}
+
+.view-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 13px;
+  border-radius: 7px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--violet-700, #6d28d9);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.view-toggle-btn:hover {
+  background: var(--violet-50, #f5f3ff);
+  color: var(--violet-900, #4c1d95);
+}
+
+.view-toggle-btn.active {
+  background: var(--violet-700, #6d28d9);
+  color: white;
+  box-shadow: 0 2px 6px rgba(109, 40, 217, 0.3);
+}
+
+/* ==========================================================================
+   4. PUCES DE FILTRES RAPIDES PAR SPÉCIALITÉS
+   ========================================================================== */
+.specialites-quick-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: #faf5ff;
+  border-bottom: 1px solid var(--violet-100, #ede9fe);
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.quick-bar-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--violet-800, #5b21b6);
+  white-space: nowrap;
+  margin-right: 4px;
+}
+
+.quick-bar-scroll {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 2px;
+}
+
+.quick-spec-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 13px;
+  border-radius: 20px;
+  border: 1px solid var(--violet-200, #ddd6fe);
+  background: var(--white, white);
+  color: var(--violet-700, #6d28d9);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.quick-spec-chip:hover {
+  border-color: var(--violet-400, #a78bfa);
+  background: var(--violet-50, #f5f3ff);
+}
+
+.quick-spec-chip.active {
+  background: var(--violet-700, #6d28d9);
+  border-color: var(--violet-700, #6d28d9);
+  color: white;
+  box-shadow: 0 2px 6px rgba(109, 40, 217, 0.3);
+}
+
+.quick-spec-chip.active .chip-icon {
+  color: #ede9fe;
+}
+
+.chip-icon {
+  font-size: 0.82rem;
+  color: var(--violet-600, #7c3aed);
+}
+
+.chip-count {
+  font-size: 0.72rem;
+  padding: 1px 6px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.08);
+  font-weight: 800;
+}
+
+.quick-spec-chip.active .chip-count {
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
+}
+
+/* ==========================================================================
+   5. TABLE DES MÉDECINS
+   ========================================================================== */
+.medecins-table th {
+  background: var(--violet-50, #f5f3ff);
+  color: var(--violet-800, #5b21b6);
+  font-weight: 700;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 14px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  border-bottom: 2px solid var(--violet-100, #ede9fe);
+}
+
+.medecin-row {
+  transition: background-color 0.2s ease;
+}
+
+.medecin-row:hover td {
+  background-color: var(--violet-50, #f5f3ff) !important;
+}
+
+/* Identité Cell */
+.medecin-identity-cell {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.medecin-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1rem;
+  color: white;
+  flex-shrink: 0;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+  position: relative;
+}
+
+.medecin-avatar.internal-avatar {
+  background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+}
+
+.medecin-avatar.external-avatar {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+}
+
+.avatar-status-dot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.dot-internal {
+  background-color: #10b981;
+  box-shadow: 0 0 6px #10b981;
+}
+
+.dot-external {
+  background-color: #0284c7;
+  box-shadow: 0 0 6px #0284c7;
+}
+
+.medecin-identity-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.medecin-name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.medecin-title-tag {
+  background: #ede9fe;
+  color: var(--violet-700, #6d28d9);
+  padding: 2px 7px;
+  border-radius: 6px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  border: 1px solid #ddd6fe;
+}
+
+.medecin-full-name {
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.medecin-code-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.74rem;
+  color: #64748b;
+  font-weight: 600;
+  background: #f1f5f9;
+  padding: 1px 7px;
+  border-radius: 5px;
+  width: fit-content;
+}
+
+.medecin-code-badge.placeholder-code {
+  color: #94a3b8;
+  background: transparent;
+  padding: 0;
+}
+
+.medecin-code-badge .code-icon {
+  font-size: 0.72rem;
+  color: #94a3b8;
+}
+
+/* Spécialité Badge */
+.specialite-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+  border: 1.5px solid #ddd6fe;
+  color: var(--violet-900, #4c1d95);
+  font-size: 0.84rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(124, 58, 237, 0.05);
+}
+
+.spec-badge-icon {
+  color: var(--violet-600, #7c3aed);
+  font-size: 0.9rem;
+}
+
+/* Statut Pills (Interne / Externe) */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 9px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.status-pill.status-internal {
+  background: #ecfdf5;
+  border: 1.5px solid #a7f3d0;
+  color: #065f46;
+}
+
+.status-pill.status-external {
+  background: #f0f9ff;
+  border: 1.5px solid #bae6fd;
+  color: #0369a1;
+}
+
+.status-pill-icon {
+  font-size: 0.9rem;
+}
+
+/* Centre de santé Cell */
+.centre-sante-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.centre-sante-cell .centre-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.centre-sante-cell.internal-centre {
+  color: #059669;
+  font-weight: 600;
+  font-size: 0.88rem;
+}
+
+.centre-sante-cell.internal-centre .internal-icon {
+  color: #10b981;
+}
+
+.centre-sante-cell.external-centre {
+  color: #0369a1;
+}
+
+.centre-sante-cell.external-centre .centre-icon {
+  color: #0284c7;
+}
+
+.centre-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.centre-empty-tag {
+  font-size: 0.8rem;
+  font-style: italic;
+  color: #94a3b8;
+}
+
+/* Contacts Cell */
+.medecin-contacts-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.contact-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  width: fit-content;
+  transition: all 0.2s ease;
+}
+
+.contact-pill.phone-pill {
+  background: #f1f5f9;
+  color: #334155;
+  border: 1px solid #e2e8f0;
+}
+
+.contact-pill.phone-pill:hover {
+  background: #ede9fe;
+  color: var(--violet-700, #6d28d9);
+  border-color: #c4b5fd;
+  transform: translateX(2px);
+}
+
+.contact-pill.email-pill {
+  background: #f8fafc;
+  color: #64748b;
+  border: 1px dashed #cbd5e1;
+}
+
+.contact-pill.email-pill:hover {
+  background: #e0f2fe;
+  color: #0284c7;
+  border-color: #7dd3fc;
+  border-style: solid;
+  transform: translateX(2px);
+}
+
+.contact-icon {
+  font-size: 0.8rem;
+}
+
+.adresse-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.84rem;
+  color: #475569;
+}
+
+.adresse-icon {
+  color: #94a3b8;
+  font-size: 0.84rem;
+}
+
+/* Action buttons */
+.view-btn {
+  color: #0284c7 !important;
+  background: #f0f9ff !important;
+  border: 1px solid #bae6fd !important;
+}
+
+.view-btn:hover {
+  background: #0284c7 !important;
+  color: white !important;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25) !important;
+}
+
+/* ==========================================================================
+   5.1. ÉTATS VIDE ET CHARGEMENT DU TABLEAU ET DES CARTES
+   ========================================================================== */
+.medecin-loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 48px 24px;
+  color: var(--violet-700, #6d28d9);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.medecin-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3.5px solid var(--violet-200, #ddd6fe);
+  border-top-color: var(--violet-600, #7c3aed);
+  border-radius: 50%;
+  animation: medecinSpin 0.8s linear infinite;
+}
+
+@keyframes medecinSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.medecin-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+  background: linear-gradient(180deg, #faf5ff 0%, #ffffff 100%);
+  border-radius: 14px;
+  border: 1px dashed var(--violet-300, #c4b5fd);
+  margin: 16px auto;
+  max-width: 520px;
+}
+
+.medecin-empty-state.cards-empty {
+  margin: 24px auto;
+  width: 100%;
+}
+
+.medecin-empty-icon-wrap {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--violet-100, #ede9fe) 0%, var(--violet-200, #ddd6fe) 100%);
+  color: var(--violet-700, #6d28d9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+  margin-bottom: 16px;
+  box-shadow: 0 8px 20px -4px rgba(124, 58, 237, 0.18);
+  border: 2px solid var(--violet-300, #c4b5fd);
+  animation: medecinPulse 2.5s infinite ease-in-out;
+}
+
+@keyframes medecinPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 8px 20px -4px rgba(124, 58, 237, 0.18);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 12px 28px -4px rgba(124, 58, 237, 0.3);
+  }
+}
+
+.medecin-empty-title {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--violet-950, #2e1065);
+  margin: 0 0 8px 0;
+}
+
+.medecin-empty-desc {
+  font-size: 14px;
+  color: var(--text-muted, #64748b);
+  max-width: 420px;
+  line-height: 1.5;
+  margin: 0 0 20px 0;
+}
+
+.medecin-empty-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 9px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--violet-300, #c4b5fd);
+  background: white;
+  color: var(--violet-700, #6d28d9);
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.medecin-empty-action-btn:hover {
+  background: var(--violet-50, #f5f3ff);
+  border-color: var(--violet-500, #8b5cf6);
+  transform: translateY(-1px);
+}
+
+.medecin-empty-action-btn.primary {
+  background: linear-gradient(135deg, var(--violet-600, #7c3aed), var(--violet-700, #6d28d9));
+  color: white;
+  border: none;
+  box-shadow: 0 4px 12px rgba(109, 40, 217, 0.25);
+}
+
+.medecin-empty-action-btn.primary:hover {
+  background: linear-gradient(135deg, var(--violet-700, #6d28d9), var(--violet-800, #5b21b6));
+  box-shadow: 0 6px 16px rgba(109, 40, 217, 0.35);
+}
+
+/* ==========================================================================
+   6. VUE CARTES / TROMBINOSCOPE DES MÉDECINS
+   ========================================================================== */
+.medecins-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 22px;
+}
+
+.medecin-profile-card {
+  background: white;
+  border-radius: 20px;
+  border: 1.5px solid #e2e8f0;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.medecin-profile-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 32px rgba(124, 58, 237, 0.1);
+  border-color: var(--violet-300, #c4b5fd);
+}
+
+.medecin-profile-card.card-internal {
+  border-top: 4px solid #10b981;
+}
+
+.medecin-profile-card.card-external {
+  border-top: 4px solid #0284c7;
+}
+
+.profile-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.profile-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.profile-status-badge.badge-internal {
+  background: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.profile-status-badge.badge-external {
+  background: #f0f9ff;
+  color: #0369a1;
+  border: 1px solid #bae6fd;
+}
+
+.profile-code-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #64748b;
+  background: #f1f5f9;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.profile-card-avatar-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 4px 0;
+}
+
+.profile-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: white;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  border: 3px solid white;
+}
+
+.profile-avatar.avatar-internal {
+  background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+}
+
+.profile-avatar.avatar-external {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+}
+
+.profile-card-main-info {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.profile-titre {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--violet-700, #6d28d9);
+  background: #ede9fe;
+  padding: 1px 8px;
+  border-radius: 6px;
+  width: fit-content;
+}
+
+.profile-name {
+  margin: 4px 0 2px 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.3;
+}
+
+.profile-specialite {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+  border: 1px solid #ddd6fe;
+  color: var(--violet-900, #4c1d95);
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-top: 4px;
+}
+
+.profile-specialite .spec-icon {
+  color: var(--violet-600, #7c3aed);
+  font-size: 0.82rem;
+}
+
+.profile-card-details {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.82rem;
+}
+
+.profile-detail-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.profile-detail-row .detail-label {
+  color: #64748b;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.profile-detail-row .row-icon {
+  font-size: 0.82rem;
+  color: #94a3b8;
+}
+
+.profile-detail-row .detail-val {
+  color: #0f172a;
+  font-weight: 700;
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-detail-row .detail-link {
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.profile-detail-row .phone-link {
+  color: #059669;
+}
+
+.profile-detail-row .phone-link:hover {
+  text-decoration: underline;
+}
+
+.profile-detail-row .email-link {
+  color: #0284c7;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-detail-row .email-link:hover {
+  text-decoration: underline;
+}
+
+.profile-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 6px;
+}
+
+.card-action-btn {
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.card-action-btn.view-card-btn {
+  flex: 1;
+  background: #f0f9ff;
+  border-color: #bae6fd;
+  color: #0284c7;
+}
+
+.card-action-btn.view-card-btn:hover {
+  background: #0284c7;
+  color: white;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+}
+
+.card-action-btn.edit-card-btn {
+  background: #f5f3ff;
+  border-color: #ddd6fe;
+  color: var(--violet-700, #6d28d9);
+}
+
+.card-action-btn.edit-card-btn:hover {
+  background: var(--violet-600, #7c3aed);
+  color: white;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
+}
+
+.card-action-btn.delete-card-btn {
+  background: #fff1f2;
+  border-color: #fecdd3;
+  color: #e11d48;
+}
+
+.card-action-btn.delete-card-btn:hover {
+  background: #e11d48;
+  color: white;
+  box-shadow: 0 4px 12px rgba(225, 29, 72, 0.25);
+}
+
+/* ==========================================================================
+   7. MODALE DE VISUALISATION (FICHE PRATICIEN)
+   ========================================================================== */
+.medecin-detail-sheet {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-sheet-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 22px;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-radius: 16px;
+  border: 1.5px solid #e2e8f0;
+  margin-bottom: 22px;
+}
+
+.detail-sheet-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: white;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
+  border: 3px solid white;
+}
+
+.detail-sheet-avatar.internal-avatar {
+  background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+}
+
+.detail-sheet-avatar.external-avatar {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+}
+
+.detail-sheet-title-info h3 {
+  margin: 4px 0 4px;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.detail-sheet-type-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 6px;
+}
+
+.detail-sheet-type-pill.type-internal {
+  background: #dcfce7;
+  color: #065f46;
+  border: 1px solid #86efac;
+}
+
+.detail-sheet-type-pill.type-external {
+  background: #e0f2fe;
+  color: #0369a1;
+  border: 1px solid #7dd3fc;
+}
+
+.detail-sheet-specialite {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--violet-700, #6d28d9);
+}
+
+.detail-sheet-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.detail-sheet-item {
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 12px 16px;
+  transition: all 0.2s ease;
+}
+
+.detail-sheet-item:hover {
+  background: white;
+  border-color: var(--violet-300, #c4b5fd);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.05);
+}
+
+.detail-sheet-item label {
+  display: block;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+
+.detail-sheet-item strong {
+  display: block;
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.detail-sheet-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.detail-quick-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 0.86rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.detail-quick-action-btn.call-btn {
+  background: #ecfdf5;
+  color: #059669;
+  border: 1.5px solid #a7f3d0;
+}
+
+.detail-quick-action-btn.call-btn:hover {
+  background: #059669;
+  color: white;
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);
+}
+
+.detail-quick-action-btn.mail-btn {
+  background: #f0f9ff;
+  color: #0284c7;
+  border: 1.5px solid #bae6fd;
+}
+
+.detail-quick-action-btn.mail-btn:hover {
+  background: #0284c7;
+  color: white;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+}
+
+/* ==========================================================================
+   8. MODALE DE SUPPRESSION
+   ========================================================================== */
+.delete-confirm-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.delete-target-card {
+  background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);
+  border: 1.5px solid #fecdd3;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.delete-target-card strong {
+  font-size: 1.15rem;
+  color: #9f1239;
+  font-weight: 800;
+}
+
+.delete-target-card span {
+  font-size: 0.86rem;
+  color: #be123c;
+  font-weight: 600;
+}
+
+.delete-warning-text {
+  font-size: 0.86rem;
+  color: #e11d48;
+  font-weight: 600;
+  margin: 0;
+  background: #fff1f2;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border-left: 4px solid #e11d48;
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
+  color: white;
+  border: none;
+  padding: 11px 20px;
+  border-radius: 10px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(225, 29, 72, 0.25);
+}
+
+.btn-danger:hover {
+  background: linear-gradient(135deg, #be123c 0%, #9f1239 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(225, 29, 72, 0.35);
+}
+
+.btn-danger:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ==========================================================================
+   9. RESPONSIVE
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .medecins-management-page {
+    padding: 16px 20px;
+  }
+  .detail-sheet-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .medecins-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .toolbar-filters-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .type-filter-tabs {
+    width: 100%;
+    justify-content: stretch;
+  }
+  .type-tab {
+    flex: 1;
+    justify-content: center;
+  }
+  .view-mode-toggle {
+    width: 100%;
+  }
+  .view-toggle-btn {
+    flex: 1;
+    justify-content: center;
+  }
+}

@@ -32,6 +32,12 @@ public class ActeService {
     public ActeResponse create(ActeRequest request) {
         Acte acte = new Acte();
         applyRequest(acte, request);
+        if (acte.getNumeroOrdre() == null && acte.getActType() != null && "ANALYSE_MEDICAL".equalsIgnoreCase(acte.getActType().getCode())) {
+            long count = acteRepository.findAll().stream()
+                    .filter(a -> a.getActType() != null && "ANALYSE_MEDICAL".equalsIgnoreCase(a.getActType().getCode()))
+                    .count();
+            acte.setNumeroOrdre(count + 1);
+        }
         Acte saved = acteRepository.save(acte);
         if (saved.getNumeroOrdre() == null) {
             saved.setNumeroOrdre(saved.getId());
@@ -43,6 +49,12 @@ public class ActeService {
     public ActeResponse update(Long id, ActeRequest request) {
         Acte acte = getOrThrow(id);
         applyRequest(acte, request);
+        if (acte.getNumeroOrdre() == null && acte.getActType() != null && "ANALYSE_MEDICAL".equalsIgnoreCase(acte.getActType().getCode())) {
+            long count = acteRepository.findAll().stream()
+                    .filter(a -> a.getActType() != null && "ANALYSE_MEDICAL".equalsIgnoreCase(a.getActType().getCode()))
+                    .count();
+            acte.setNumeroOrdre(count);
+        }
         Acte saved = acteRepository.save(acte);
         if (saved.getNumeroOrdre() == null) {
             saved.setNumeroOrdre(saved.getId());

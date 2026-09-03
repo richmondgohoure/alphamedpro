@@ -1,209 +1,441 @@
-.patients-page {
-  min-height: calc(100vh - 65px);
-  padding: 40px 24px 60px;
-  background: var(--violet-50);
+.patients-management-page {
+  padding: 20px 24px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 20px;
+  max-width: 100%;
+  margin: 0;
+  width: 100%;
 }
 
-.search-bar-wrapper {
-  max-width: 1420px;
+.patients-management-page .page-header {
+  max-width: 100%;
+}
+
+/* Section Patients Principale */
+.patient-section {
+  background: var(--white);
+  border-radius: 14px;
+  border: 1px solid var(--violet-200);
+  box-shadow: 0 4px 16px var(--shadow-violet);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  margin: 0 auto 28px;
+}
+
+.patient-section .data-table-wrapper {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  max-height: 65vh;
+  overflow-x: auto;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.patient-section .data-table {
+  width: 100%;
+  min-width: 100%;
+}
+
+.patient-section .data-table th,
+.patient-section .data-table td {
+  padding: 11px 14px;
+  font-size: 13.5px;
+}
+
+.patient-section .table-action-btn {
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  gap: 5px;
+  border-radius: 6px;
+}
+
+.patient-icon {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
+/* Actions en-tête de section */
+.section-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-visites-list-header {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  color: var(--violet-700);
+  border: 1.5px solid var(--violet-300);
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(109, 40, 217, 0.08);
+  white-space: nowrap;
+}
+
+.btn-visites-list-header:hover {
+  background: var(--violet-50);
+  color: var(--violet-900);
+  border-color: var(--violet-500);
+  box-shadow: 0 4px 12px rgba(109, 40, 217, 0.16);
+  transform: translateY(-1px);
+}
+
+/* Barre de recherche et filtrage intégrée */
+.patient-search-toolbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+  padding: 12px 20px;
+  background: #faf5ff;
+  border-bottom: 1px solid var(--violet-100);
   flex-wrap: wrap;
 }
 
-.data-table-wrapper {
-  max-width: 1420px;
-  width: 100%;
-  margin: 0 auto;
-}
-
-.search-bar {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex: 1 1 100%;
-  max-width: 600px;
-  padding: 8px;
-  background: var(--white);
-  border-radius: 12px;
-  box-shadow: 0 2px 10px var(--shadow-violet);
-}
-
-.new-patient-button {
-  flex: 0 0 auto;
-  padding: 13px 24px;
-  background: var(--violet-600);
-  color: var(--white);
-  border: none;
-  border-radius: 10px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  white-space: nowrap;
-  cursor: pointer;
-  box-shadow: 0 4px 12px var(--shadow-violet);
-  transition: background 0.2s, transform 0.1s;
-}
-
-.new-patient-button:hover {
-  background: var(--violet-700);
-}
-
-.new-patient-button:active {
-  transform: scale(0.97);
-}
-
-.search-input-group {
+.patient-search-toolbar .search-input-group {
   position: relative;
   flex: 1;
+  min-width: 260px;
+  max-width: 580px;
   display: flex;
   align-items: center;
 }
 
-.search-icon {
+.patient-search-toolbar .search-icon {
   position: absolute;
   left: 14px;
-  color: var(--violet-400);
-  font-size: 0.95rem;
+  color: var(--violet-500);
+  font-size: 14px;
   pointer-events: none;
 }
 
-.search-input-group input {
+.patient-search-toolbar .search-input-group input {
   width: 100%;
-  padding: 11px 14px 11px 40px;
+  padding: 9px 34px 9px 36px;
   border: 1px solid var(--violet-200);
   border-radius: 8px;
-  font-size: 0.95rem;
+  font-size: 13.5px;
   font-family: inherit;
   color: var(--text-dark);
-  background: var(--violet-50);
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
-}
-
-.search-input-group input::placeholder {
-  color: var(--text-muted);
-}
-
-.search-input-group input:focus {
-  border-color: var(--violet-500);
   background: var(--white);
-  box-shadow: 0 0 0 3px var(--violet-100);
+  outline: none;
+  transition: all 0.2s ease;
 }
 
-.search-button {
-  padding: 11px 26px;
-  background: var(--violet-600);
-  color: var(--white);
+.patient-search-toolbar .search-input-group input:focus {
+  border-color: var(--violet-500);
+  box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.12);
+}
+
+.patient-search-toolbar .search-clear-btn {
+  position: absolute;
+  right: 10px;
+  background: transparent;
   border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.patient-search-toolbar .search-clear-btn:hover {
+  color: var(--violet-700);
+  background: var(--violet-100);
+}
+
+.patient-search-toolbar .search-result-count {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--violet-700);
+  background: var(--violet-100);
+  padding: 3px 9px;
+  border-radius: 12px;
+}
+
+/* Cellule Identité Patient & Avatar */
+.patient-identity-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.patient-avatar-circle {
+  width: 34px;
+  height: 34px;
   border-radius: 8px;
-  font-size: 0.95rem;
+  background: linear-gradient(135deg, var(--violet-500) 0%, var(--violet-700) 100%);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 5px rgba(109, 40, 217, 0.2);
+}
+
+.patient-identity-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.patient-name {
+  color: var(--violet-950);
+  font-size: 13.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Badges & Pills Spécifiques Patients */
+.dp-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  background: #fef9c3;
+  color: #854d0e;
+  border: 1px solid #fde047;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.dp-pill.dp-interactive {
+  cursor: pointer;
+  background: #fef9c3;
+  color: #854d0e;
+  border: 1px solid #fde047;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 2px rgba(133, 77, 14, 0.08);
+}
+
+.dp-pill.dp-interactive:hover {
+  background: #fef08a;
+  border-color: #eab308;
+  color: #713f12;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(133, 77, 14, 0.16);
+}
+
+.dp-pill.dp-interactive:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(133, 77, 14, 0.08);
+}
+
+.card-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.pill-icon {
+  font-size: 11px;
+}
+
+.associate-card-chip {
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  color: #64748b;
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.associate-card-chip:hover {
+  background: #eff6ff;
+  border-color: #93c5fd;
+  color: #1d4ed8;
+}
+
+.cell-flex-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-dark);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.cell-item-icon {
+  color: var(--violet-400);
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.phone-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+  padding: 2.5px 8px;
+  border-radius: 6px;
+  font-size: 12.5px;
   font-weight: 600;
   white-space: nowrap;
-  cursor: pointer;
-  transition: background 0.2s, transform 0.1s;
 }
 
-.search-button:hover {
-  background: var(--violet-700);
+.phone-pill .cell-item-icon {
+  color: #16a34a;
 }
 
-.search-button:active {
-  transform: scale(0.97);
+.location-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #faf5ff;
+  color: var(--violet-800);
+  border: 1px solid var(--violet-200);
+  padding: 2.5px 8px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  font-weight: 500;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-/* Animations pro pour la barre de recherche */
-@keyframes searchBarSlide {
-  from {
-    opacity: 0;
-    transform: translateY(-16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.profession-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #f8fafc;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+  padding: 2.5px 8px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  font-weight: 500;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-@keyframes searchIconPulse {
-  0% {
-    transform: scale(1);
-    opacity: 0.7;
-  }
-  50% {
-    transform: scale(1.1);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 0.7;
-  }
+/* Badges Assurances avec Numéro Matricule */
+.patient-assurance-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #ede9fe;
+  color: #6d28d9;
+  border: 1px solid #ddd6fe;
+  padding: 2.5px 7px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
 }
 
-.search-bar-wrapper {
-  animation: searchBarSlide 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+.badge-shield-icon {
+  font-size: 10.5px;
+  color: #7c3aed;
 }
 
-.search-bar {
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 10px var(--shadow-violet);
+.garant-tag {
+  background: #eff6ff;
+  color: #1e40af;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  border: 1px solid #bfdbfe;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: 2px;
 }
 
-.search-bar:has(input:focus) {
-  box-shadow: 0 8px 24px rgba(112, 66, 193, 0.25);
-  transform: translateY(-2px);
+.garant-tag-icon {
+  font-size: 10px;
+  color: #2563eb;
 }
 
-.search-input-group input {
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  caret-color: var(--violet-600);
-}
-
-.search-input-group input:focus {
-  border-color: var(--violet-500);
+.matricule-tag {
   background: var(--white);
-  box-shadow: 0 0 0 3px rgba(112, 66, 193, 0.1);
+  color: #5b21b6;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-weight: 700;
+  border: 1px solid #c4b5fd;
+  margin-left: 2px;
 }
 
-.search-icon {
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+/* Boutons d'Action de la table */
+.patient-section .table-actions {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
-.search-input-group input:focus ~ .search-icon,
-.search-input-group:has(input:not(:placeholder-shown)) .search-icon {
-  color: var(--violet-600);
-  animation: searchIconPulse 2s ease-in-out;
+.table-action-btn.pec-action-btn {
+  color: #0369a1;
+  background: #e0f2fe;
 }
 
-.search-button {
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+.table-action-btn.pec-action-btn:hover {
+  background: #bae6fd;
+  color: #0284c7;
 }
 
-.search-button:hover {
-  background: var(--violet-700);
-  box-shadow: 0 6px 16px rgba(112, 66, 193, 0.3);
-  transform: translateY(-1px);
-}
+@media (max-width: 860px) {
+  .patients-management-page {
+    padding: 12px;
+    gap: 16px;
+  }
 
-.search-button:active {
-  transform: scale(0.97) translateY(0);
-}
+  .patient-search-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 12px 14px;
+  }
 
-.new-patient-button {
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.new-patient-button:hover {
-  background: var(--violet-700);
-  box-shadow: 0 6px 16px rgba(112, 66, 193, 0.3);
-  transform: translateY(-1px);
-}
-
-.new-patient-button:active {
-  transform: scale(0.97) translateY(0);
+  .patient-search-toolbar .search-input-group {
+    max-width: 100%;
+  }
 }

@@ -8,6 +8,60 @@ import { garantsApi } from '../api/garantsApi'
 import '../styles/table.css'
 import './Assurances.css'
 
+function InlineRateInput({ value, onSave, placeholder = '0', unit = 'F', ariaLabel }) {
+  const [val, setVal] = useState(value !== null && value !== undefined ? String(value) : '')
+  const [saving, setSaving] = useState(false)
+  const [saved, setSaved] = useState(false)
+
+  useEffect(() => {
+    setVal(value !== null && value !== undefined ? String(value) : '')
+  }, [value])
+
+  const handleBlur = async () => {
+    const originalStr = value !== null && value !== undefined ? String(value) : ''
+    if (val.trim() === originalStr.trim()) return
+    setSaving(true)
+    try {
+      await onSave(val.trim())
+      setSaved(true)
+      setTimeout(() => setSaved(false), 2000)
+    } catch (err) {
+      console.error(err)
+      setVal(originalStr)
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.target.blur()
+    } else if (e.key === 'Escape') {
+      setVal(value !== null && value !== undefined ? String(value) : '')
+      e.target.blur()
+    }
+  }
+
+  return (
+    <div className="table-inline-input-wrapper" title="Cliquer pour modifier directement">
+      <input
+        type="number"
+        min="0"
+        value={val}
+        onChange={(e) => setVal(e.target.value)}
+        onBlur={handleBlur}
+        onKeyDown={handleKeyDown}
+        className="table-inline-input"
+        placeholder={placeholder}
+        aria-label={ariaLabel}
+        disabled={saving}
+      />
+      {unit && <span className="table-inline-unit">{unit}</span>}
+      {saved && <span className="table-inline-saved-badge">✓</span>}
+    </div>
+  )
+}
+
 function Assurances() {
   const [assurances, setAssurances] = useState([])
   const [garants, setGarants] = useState([])
@@ -62,6 +116,34 @@ function Assurances() {
 
   const handleGarantCreated = (created) => {
     setGarants((prev) => [...prev, created])
+  }
+
+  const handleInlineRateUpdate = async (assurance, field, newValue) => {
+    const numVal =
+      newValue === '' || newValue === null || newValue === undefined
+        ? null
+        : Number(newValue)
+    const payload = {
+      libelle: assurance.libelle,
+      ncc: assurance.ncc,
+      numeroTelephone: assurance.numeroTelephone,
+      email: assurance.email,
+      prixConsultationGeneraliste: assurance.prixConsultationGeneraliste,
+      prixConsultationSpecialiste: assurance.prixConsultationSpecialiste,
+      coutB: field === 'coutB' ? numVal : assurance.coutB,
+      coutZ: field === 'coutZ' ? numVal : assurance.coutZ,
+      coutK: field === 'coutK' ? numVal : assurance.coutK,
+      prixChambreTriple: assurance.prixChambreTriple,
+      prixChambreDouble: assurance.prixChambreDouble,
+      prixChambreIndividuelleSimple: assurance.prixChambreIndividuelleSimple,
+      prixChambreVip: assurance.prixChambreVip,
+      prixChambreVvip: assurance.prixChambreVvip,
+      garantIds: (assurance.garants || []).map((g) => g.id),
+    }
+    const updated = await assurancesApi.update(assurance.id, payload)
+    setAssurances((prev) =>
+      prev.map((ass) => (ass.id === assurance.id ? { ...ass, ...updated } : ass))
+    )
   }
 
   const handleSubmit = async (payload) => {
@@ -121,35 +203,57 @@ function Assurances() {
             <tr>
               <th>Libellé</th>
               <th>NCC</th>
+              <th style={{ minWidth: 125 }}>Coût du B</th>
+              <th style={{ minWidth: 125 }}>Coût du Z</th>
               <th>Téléphone</th>
               <th>Email</th>
               <th>Patients affiliés</th>
               <th>Garants</th>
-              <th></th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
             {loading && (
               <tr className="empty-row">
-                <td colSpan={7}>Chargement...</td>
+                <td colSpan={9}>Chargement...</td>
               </tr>
             )}
             {!loading && loadError && (
               <tr className="empty-row">
-                <td colSpan={7}>Erreur : {loadError}</td>
+                <td colSpan={9}>Erreur : {loadError}</td>
               </tr>
             )}
             {!loading && !loadError && assurances.length === 0 && (
               <tr className="empty-row">
-                <td colSpan={7}>Aucune assurance enregistrée pour le moment.</td>
+                <td colSpan={9}>Aucune assurance enregistrée pour le moment.</td>
               </tr>
             )}
             {!loading &&
               !loadError &&
               assurances.map((assurance) => (
                 <tr key={assurance.id}>
-                  <td>{assurance.libelle}</td>
+                  <td>
+                    <strong>{assurance.libelle}</strong>
+                  </td>
                   <td>{assurance.ncc || '—'}</td>
+                  <td>
+                    <InlineRateInput
+                      value={assurance.coutB}
+                      onSave={(val) => handleInlineRateUpdate(assurance, 'coutB', val)}
+                      placeholder="0"
+                      unit="FCFA"
+                      ariaLabel={`Coût du B pour ${assurance.libelle}`}
+                    />
+                  </td>
+                  <td>
+                    <InlineRateInput
+                      value={assurance.coutZ}
+                      onSave={(val) => handleInlineRateUpdate(assurance, 'coutZ', val)}
+                      placeholder="0"
+                      unit="FCFA"
+                      ariaLabel={`Coût du Z pour ${assurance.libelle}`}
+                    />
+                  </td>
                   <td>{assurance.numeroTelephone || '—'}</td>
                   <td>{assurance.email || '—'}</td>
                   <td>{assurance.nombrePatients}</td>
@@ -198,7 +302,7 @@ function Assurances() {
                   <th>Téléphone</th>
                   <th>Email</th>
                   <th>Assurances garanties</th>
-                  <th></th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>

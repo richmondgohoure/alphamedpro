@@ -15,4 +15,24 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
             "LOWER(p.code) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
             "CAST(p.id AS string) LIKE CONCAT('%', :query, '%')")
     List<Patient> search(@Param("query") String query);
+
+    @Query("SELECT COUNT(p) > 0 FROM Patient p WHERE " +
+            "LOWER(TRIM(p.nom)) = LOWER(TRIM(:nom)) AND " +
+            "p.numeroTelephone IS NOT NULL AND TRIM(p.numeroTelephone) <> '' AND " +
+            "LOWER(TRIM(p.numeroTelephone)) = LOWER(TRIM(:numeroTelephone))")
+    boolean existsByNomAndNumeroTelephoneIgnoreCase(
+            @Param("nom") String nom,
+            @Param("numeroTelephone") String numeroTelephone
+    );
+
+    @Query("SELECT COUNT(p) > 0 FROM Patient p WHERE " +
+            "p.id <> :id AND " +
+            "LOWER(TRIM(p.nom)) = LOWER(TRIM(:nom)) AND " +
+            "p.numeroTelephone IS NOT NULL AND TRIM(p.numeroTelephone) <> '' AND " +
+            "LOWER(TRIM(p.numeroTelephone)) = LOWER(TRIM(:numeroTelephone))")
+    boolean existsByNomAndNumeroTelephoneIgnoreCaseAndIdNot(
+            @Param("nom") String nom,
+            @Param("numeroTelephone") String numeroTelephone,
+            @Param("id") Long id
+    );
 }

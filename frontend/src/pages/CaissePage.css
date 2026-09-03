@@ -1,0 +1,417 @@
+/* Styles de la Page Caisse & Encaissements */
+.caisse-page {
+  padding: 24px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 100%;
+}
+
+.caisse-refresh-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.caisse-spin {
+  animation: caisse-spin 1s linear infinite;
+}
+
+/* Grille KPI 3D */
+.caisse-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 1024px) {
+  .caisse-kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .caisse-kpi-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.caisse-kpi-card {
+  background: #ffffff;
+  border: 1px solid var(--violet-200);
+  border-radius: 14px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 4px 14px rgba(109, 40, 217, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.caisse-kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(109, 40, 217, 0.1);
+}
+
+.kpi-icon-wrap {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.icon-purple {
+  background: #f3e8ff;
+  color: #7e22ce;
+}
+
+.icon-green {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.icon-red {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.icon-orange {
+  background: #ffedd5;
+  color: #c2410c;
+}
+
+.kpi-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.kpi-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.kpi-value {
+  font-size: 20px;
+  font-weight: 900;
+  color: #0f172a;
+}
+
+.kpi-value small {
+  font-size: 12px;
+  font-weight: 700;
+  color: #64748b;
+}
+
+.kpi-sub {
+  font-size: 11.5px;
+  color: #94a3b8;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* Section Principale */
+.caisse-main-section {
+  background: #ffffff;
+  border: 1px solid var(--violet-200);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(109, 40, 217, 0.04);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navigation Tabs */
+.caisse-tabs-bar {
+  display: flex;
+  align-items: center;
+  background: #faf5ff;
+  border-bottom: 1px solid var(--violet-200);
+  padding: 8px 16px 0;
+  gap: 8px;
+  overflow-x: auto;
+}
+
+.caisse-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: none;
+  background: transparent;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 700;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.caisse-tab:hover {
+  color: var(--violet-800);
+  background: rgba(237, 233, 254, 0.5);
+  border-radius: 6px 6px 0 0;
+}
+
+.caisse-tab.active {
+  color: var(--violet-900);
+  border-bottom-color: var(--violet-700);
+  background: #ffffff;
+  border-radius: 8px 8px 0 0;
+}
+
+.tab-pill {
+  background: #e2e8f0;
+  color: #334155;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 10px;
+}
+
+.tab-pill.pill-red {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.tab-pill.pill-blue {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.tab-pill.pill-purple {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
+.tab-icon-red {
+  color: #ef4444;
+}
+
+.tab-icon-blue {
+  color: #0ea5e9;
+}
+
+.tab-icon-green {
+  color: #10b981;
+}
+
+/* Toolbar */
+.caisse-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: #ffffff;
+  border-bottom: 1px solid #f1f5f9;
+  flex-wrap: wrap;
+}
+
+.caisse-search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 280px;
+}
+
+.caisse-search-wrap .search-icon {
+  position: absolute;
+  left: 12px;
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+.caisse-search-input {
+  width: 100%;
+  padding: 9px 36px 9px 34px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e293b;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.caisse-search-input:focus {
+  border-color: var(--violet-600);
+}
+
+.btn-clear-search {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.caisse-date-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #475569;
+}
+
+.caisse-date-input {
+  padding: 7px 10px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #1e293b;
+  outline: none;
+}
+
+.btn-reset-filters {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 12px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* Tableau */
+.caisse-table-container {
+  overflow-x: auto;
+}
+
+.caisse-date-cell {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #475569;
+  white-space: nowrap;
+}
+
+.patient-identity-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.patient-avatar-mini {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--violet-500), var(--violet-700));
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.patient-text-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.patient-name {
+  font-size: 13.5px;
+  color: #0f172a;
+}
+
+.patient-sub-pills {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dp-mini-pill {
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 700;
+  background: #fef9c3;
+  color: #854d0e;
+  border: 1px solid #fde047;
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.tel-mini {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.row-solde {
+  background-color: #fafffc;
+}
+
+.caisse-encaissement-btn {
+  background: #ede9fe;
+  color: #5b21b6;
+  border: 1px solid #ddd6fe;
+  font-weight: 700;
+}
+
+.caisse-encaissement-btn:hover {
+  background: var(--violet-700);
+  color: #ffffff;
+  border-color: var(--violet-700);
+}
+
+.caisse-recu-pill {
+  background: #f1f5f9;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.caisse-mode-chip {
+  display: inline-flex;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  background: #e2e8f0;
+  color: #1e293b;
+}
+
+.recu-print-action-btn {
+  background: #f0fdf4;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+  font-weight: 700;
+}
+
+.recu-print-action-btn:hover {
+  background: #166534;
+  color: #ffffff;
+}
+
+.caisse-empty-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 30px;
+}
+
+.empty-icon {
+  font-size: 40px;
+  color: #cbd5e1;
+}
+
+.caisse-empty-wrap h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #334155;
+}

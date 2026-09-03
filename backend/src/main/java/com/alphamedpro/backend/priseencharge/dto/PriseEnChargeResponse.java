@@ -4,16 +4,23 @@ import com.alphamedpro.backend.priseencharge.PriseEnCharge;
 import com.alphamedpro.backend.priseencharge.StatutPriseEnCharge;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public record PriseEnChargeResponse(
         Long id,
         Long patientId,
         Long assuranceId,
         String assuranceLibelle,
-        LocalDate dateDemande,
+        LocalDateTime dateDemande,
         String motif,
         BigDecimal montant,
+        String typeCouverture,
+        BigDecimal tauxCouverture,
+        BigDecimal montantForfait,
+        BigDecimal montantTotal,
+        BigDecimal partAssurance,
+        BigDecimal partPatient,
+        String detailsActes,
         StatutPriseEnCharge statut,
         String observation
 ) {
@@ -26,6 +33,13 @@ public record PriseEnChargeResponse(
                 priseEnCharge.getDateDemande(),
                 priseEnCharge.getMotif(),
                 priseEnCharge.getMontant(),
+                priseEnCharge.getTypeCouverture(),
+                priseEnCharge.getTauxCouverture(),
+                priseEnCharge.getMontantForfait(),
+                priseEnCharge.getMontantTotal(),
+                priseEnCharge.getPartAssurance(),
+                priseEnCharge.getPartPatient(),
+                priseEnCharge.getDetailsActes(),
                 priseEnCharge.getStatut(),
                 priseEnCharge.getObservation()
         );

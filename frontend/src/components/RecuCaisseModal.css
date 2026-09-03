@@ -1,0 +1,317 @@
+/* Modal Reçu de Caisse Officiel */
+.recu-modal-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.recu-print-card {
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.recu-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.recu-brand-title {
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--violet-900);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.recu-logo {
+  color: var(--violet-600);
+  font-size: 22px;
+}
+
+.recu-brand-sub {
+  font-size: 13px;
+  font-weight: 700;
+  color: #334155;
+  margin-top: 2px;
+}
+
+.recu-brand-contact {
+  font-size: 11.5px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.recu-doc-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.recu-title-badge {
+  background: var(--violet-100);
+  color: var(--violet-900);
+  border: 1px solid var(--violet-200);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.recu-num-highlight {
+  font-family: ui-monospace, monospace;
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--violet-800);
+}
+
+.recu-date-line {
+  font-size: 11.5px;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.recu-divider {
+  height: 1px;
+  background: #e2e8f0;
+}
+
+/* Grille 2 Colonnes */
+.recu-grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 640px) {
+  .recu-grid-2col {
+    grid-template-columns: 1fr;
+  }
+}
+
+.recu-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.recu-box-title {
+  font-size: 12px;
+  font-weight: 800;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 4px;
+  margin-bottom: 2px;
+}
+
+.recu-box-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.recu-box-row .lbl {
+  color: #64748b;
+  font-weight: 600;
+}
+
+.recu-box-row .val {
+  color: #0f172a;
+}
+
+.monospace {
+  font-family: ui-monospace, monospace;
+}
+
+.recu-mode-badge {
+  background: #ede9fe;
+  color: #6d28d9;
+  border: 1px solid #ddd6fe;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+/* Tableau Actes */
+.recu-table-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.recu-section-title {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: #1e293b;
+}
+
+.recu-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.recu-table th,
+.recu-table td {
+  padding: 6px 10px;
+  border: 1px solid #e2e8f0;
+}
+
+.recu-table th {
+  background: #f1f5f9;
+  color: #334155;
+  font-weight: 700;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+/* Synthèse Financière */
+.recu-financial-summary {
+  background: #f8fafc;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.recu-sum-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #334155;
+}
+
+.recu-sum-row.highlight-row {
+  border-top: 1px dashed #cbd5e1;
+  border-bottom: 1px dashed #cbd5e1;
+  padding: 8px 0;
+  font-size: 14px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.recu-big-amount {
+  font-size: 18px;
+  font-weight: 900;
+  color: #15803d;
+}
+
+.recu-sum-row.reste-row {
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.recu-notes-box {
+  background: #fffbeb;
+  border: 1px solid #fef3c7;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  color: #92400e;
+}
+
+/* Signatures */
+.recu-signatures-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 8px;
+}
+
+.recu-sig-box {
+  border: 1px dashed #cbd5e1;
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sig-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #475569;
+}
+
+.sig-space {
+  height: 48px;
+}
+
+.sig-user {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+}
+
+.recu-footer {
+  text-align: center;
+  font-size: 10.5px;
+  color: #94a3b8;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 8px;
+}
+
+/* Actions hors impression */
+.recu-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 8px;
+  border-top: 1px solid #e2e8f0;
+}
+
+/* Print Media Query */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printable-recu,
+  #printable-recu * {
+    visibility: visible;
+  }
+  #printable-recu {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+  .no-print {
+    display: none !important;
+  }
+}

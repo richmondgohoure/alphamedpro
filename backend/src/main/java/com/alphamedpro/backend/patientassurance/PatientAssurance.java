@@ -1,6 +1,7 @@
 package com.alphamedpro.backend.patientassurance;
 
 import com.alphamedpro.backend.assurance.Assurance;
+import com.alphamedpro.backend.garant.Garant;
 import com.alphamedpro.backend.patient.Patient;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,6 +34,10 @@ public class PatientAssurance {
     @ManyToOne
     @JoinColumn(name = "assurance_id")
     private Assurance assurance;
+
+    @ManyToOne
+    @JoinColumn(name = "garant_id")
+    private Garant garant;
 
     private String numeroMatricule;
 }

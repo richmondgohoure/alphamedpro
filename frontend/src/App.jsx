@@ -6,6 +6,8 @@ import Patients from './pages/Patients'
 import Assurances from './pages/Assurances'
 import GestionActes from './pages/GestionActes'
 import ServicesPage from './pages/ServicesPage'
+import MedecinsPage from './pages/MedecinsPage'
+import CaissePage from './pages/CaissePage'
 import { API_BASE_URL } from './api/http'
 
 function App() {
@@ -48,6 +50,12 @@ function App() {
     if (activeKey === 'services') {
       return <ServicesPage />
     }
+    if (activeKey === 'medecins') {
+      return <MedecinsPage />
+    }
+    if (activeKey === 'caisse' || activeKey === 'facturation') {
+      return <CaissePage />
+    }
     return <MainMenu activeKey={activeKey} onSelect={handleSelect} />
   }
 
@@ -58,6 +66,7 @@ function App() {
         isMenuOpen={isMenuOpen}
         backendStatus={backendStatus}
         onRefreshBackendStatus={checkBackendStatus}
+        onGoHome={() => handleSelect('dashboard')}
       />
       <Sidebar
         isOpen={isMenuOpen}

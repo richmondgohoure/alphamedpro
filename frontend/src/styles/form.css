@@ -30,6 +30,14 @@
   background: var(--white);
 }
 
+.form-field input:read-only,
+.form-field input:disabled {
+  background: var(--violet-50);
+  color: var(--text-dark);
+  cursor: not-allowed;
+  border-color: var(--violet-200);
+}
+
 .form-field input:focus,
 .form-field select:focus {
   outline: none;
@@ -125,8 +133,478 @@
   gap: 6px;
 }
 
+/* Medecin Form Elements */
+.medecin-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-module-card {
+  background: #ffffff;
+  border: 1px solid var(--violet-200, #ddd6fe);
+  border-radius: 12px;
+  padding: 16px 18px;
+  box-shadow: 0 2px 8px rgba(109, 40, 217, 0.04);
+  transition: all 0.2s ease;
+}
+
+.form-module-card:hover {
+  border-color: var(--violet-300, #c4b5fd);
+  box-shadow: 0 4px 12px rgba(109, 40, 217, 0.07);
+}
+
+.form-module-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--violet-100, #ede9fe);
+}
+
+.module-header-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: var(--violet-900, #4c1d95);
+}
+
+.module-header-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: var(--violet-100, #ede9fe);
+  color: var(--violet-800, #5b21b6);
+  padding: 2px 8px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.form-select-pro {
+  background: white;
+  border: 1.5px solid var(--violet-200, #ddd6fe);
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-color, #1e293b);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.form-select-pro:focus {
+  border-color: var(--violet-600, #7c3aed);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+  outline: none;
+}
+
+.medecin-type-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.medecin-type-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: #faf5ff;
+  border: 2px solid var(--violet-100, #ede9fe);
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.medecin-type-card:hover {
+  border-color: var(--violet-300, #c4b5fd);
+  background: #f5f3ff;
+  transform: translateY(-1px);
+}
+
+.medecin-type-card.active.internal {
+  border-color: #10b981;
+  background: #f0fdf4;
+  box-shadow: 0 0 0 1px #10b981, 0 4px 14px rgba(16, 185, 129, 0.14);
+}
+
+.medecin-type-card.active.external {
+  border-color: #0284c7;
+  background: #f0f9ff;
+  box-shadow: 0 0 0 1px #0284c7, 0 4px 14px rgba(2, 132, 199, 0.14);
+}
+
+.type-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 11px;
+  background: #ecfdf5;
+  color: #059669;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  flex-shrink: 0;
+  border: 1px solid #a7f3d0;
+}
+
+.type-card-icon.external-icon {
+  background: #e0f2fe;
+  color: #0284c7;
+  border-color: #bae6fd;
+}
+
+.type-card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.type-card-info .type-title {
+  display: block;
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 3px;
+}
+
+.type-card-info .type-desc {
+  display: block;
+  font-size: 0.77rem;
+  color: #64748b;
+  line-height: 1.3;
+}
+
+.type-checked-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #10b981;
+  color: white;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.25);
+}
+
+.type-checked-badge.external-badge {
+  background: #0284c7;
+  box-shadow: 0 2px 4px rgba(2, 132, 199, 0.25);
+}
+
+.section-title-icon {
+  margin-right: 6px;
+  vertical-align: -1px;
+}
+
+.field-icon-inline {
+  margin-right: 6px;
+  color: var(--violet-600);
+  vertical-align: -1px;
+}
+
+.required-star {
+  color: #e11d48;
+  font-weight: 800;
+  margin-left: 2px;
+}
+
+.facultative-tag {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #64748b;
+  margin-left: 4px;
+}
+
+.quick-specialites-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.chips-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--violet-700);
+}
+
+.quick-spec-btn {
+  background: var(--violet-50);
+  border: 1px solid var(--violet-100);
+  color: var(--violet-800);
+  padding: 4px 9px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.quick-spec-btn:hover {
+  background: var(--violet-100);
+  border-color: var(--violet-300);
+}
+
+.quick-spec-btn.active {
+  background: var(--violet-600);
+  color: white;
+  border-color: var(--violet-600);
+}
+
+.external-center-field {
+  background: #f0f9ff;
+  border: 1.5px dashed #bae6fd;
+  border-radius: 10px;
+  padding: 14px;
+  margin-top: 6px;
+}
+
+.external-center-field label {
+  color: #0369a1 !important;
+  font-weight: 600 !important;
+}
+
+.external-center-field input {
+  border-color: #bae6fd !important;
+  background: white !important;
+}
+
+.external-center-field input:focus {
+  border-color: #0284c7 !important;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15) !important;
+}
+
+.field-hint {
+  display: block;
+  font-size: 0.74rem;
+  color: #0284c7;
+  margin-top: 5px;
+}
+
+/* ==========================================================================
+   Affiliation Assurance & Garant dans PatientForm
+   ========================================================================== */
+.patient-assurances-container {
+  margin-top: 8px;
+  background: #fcfaff;
+  border: 1px solid var(--violet-200, #ddd6fe);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.patient-assurances-header {
+  margin-bottom: 14px;
+}
+
+.patient-assurances-title {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.patient-assurances-title .title-icon {
+  font-size: 20px;
+  color: var(--violet-600, #7c3aed);
+  margin-top: 2px;
+}
+
+.patient-assurances-title strong {
+  font-size: 14px;
+  color: var(--violet-950, #2e1065);
+  display: block;
+}
+
+.patient-assurances-subtext {
+  margin: 2px 0 0;
+  font-size: 12.5px;
+  color: #64748b;
+}
+
+.patient-no-assurances {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: #f1f5f9;
+  border-radius: 8px;
+  color: #475569;
+  font-size: 13px;
+}
+
+.patient-assurances-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.patient-assurance-card {
+  background: var(--white);
+  border: 1.5px solid var(--violet-150, #e9d5ff);
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+
+.patient-assurance-card.is-selected {
+  border-color: #7c3aed;
+  box-shadow: 0 3px 10px rgba(124, 58, 237, 0.1);
+}
+
+.patient-assurance-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  cursor: pointer;
+  background: var(--white);
+  transition: background 0.15s ease;
+}
+
+.patient-assurance-card.is-selected .patient-assurance-card-header {
+  background: #f5f3ff;
+}
+
+.patient-assurance-checkbox-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.patient-assurance-checkbox-wrapper input[type='checkbox'] {
+  display: none;
+}
+
+.patient-custom-checkbox {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  border: 2px solid #cbd5e1;
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: var(--white);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.patient-custom-checkbox.checked {
+  background: #7c3aed;
+  border-color: #7c3aed;
+}
+
+.patient-assurance-main-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.patient-assurance-name {
+  font-weight: 700;
+  font-size: 13.5px;
+  color: var(--violet-950, #2e1065);
+}
+
+.patient-assurance-ncc {
+  font-size: 11.5px;
+  color: #64748b;
+  background: #f1f5f9;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.patient-assurance-garants-count {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: #6b21a8;
+  background: #ede9fe;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.patient-assurance-details-panel {
+  padding: 12px 14px 14px;
+  background: #faf8ff;
+  border-top: 1px dashed #ddd6fe;
+}
+
+.patient-assurance-inputs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.patient-subfield {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.patient-subfield label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--violet-800, #5b21b6);
+}
+
+.patient-subfield .field-icon {
+  color: var(--violet-600, #7c3aed);
+}
+
+.patient-garant-select,
+.patient-matricule-input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--violet-200, #ddd6fe);
+  border-radius: 7px;
+  font-size: 13px;
+  color: var(--text-dark, #1e293b);
+  background: var(--white);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.patient-garant-select:focus,
+.patient-matricule-input:focus {
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12);
+}
+
+.patient-no-garant-alert {
+  font-size: 12px;
+  color: #64748b;
+  background: #f1f5f9;
+  padding: 7px 10px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 @media (max-width: 640px) {
   .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .medecin-type-selector {
+    grid-template-columns: 1fr;
+  }
+  .patient-assurance-inputs-grid {
     grid-template-columns: 1fr;
   }
 }

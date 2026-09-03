@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotNull;
 
 public record PatientAssuranceRequest(
         @NotNull(message = "L'assurance est obligatoire") Long assuranceId,
+        Long garantId,
         String numeroMatricule
 ) {
 }

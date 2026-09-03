@@ -1,0 +1,2195 @@
+/* Style de la page de Prise en Charge Médicale */
+.management-page.pec-page {
+  padding: 24px 32px;
+  max-width: 100%;
+  margin: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-sizing: border-box;
+}
+
+.pec-page .management-section {
+  padding: 22px 26px;
+  margin-bottom: 0;
+  border-radius: 16px;
+}
+
+/* Barre de navigation supérieure */
+.pec-top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--violet-100, #e9d5ff);
+}
+
+.pec-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: white;
+  color: var(--violet-700, #6d28d9);
+  border: 1px solid var(--violet-200, #ddd6fe);
+  padding: 12px 22px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(109, 40, 217, 0.08);
+}
+
+.pec-back-btn:hover {
+  background: var(--violet-50, #f5f3ff);
+  border-color: var(--violet-400, #a78bfa);
+  transform: translateX(-3px);
+}
+
+.pec-nav-title {
+  text-align: right;
+}
+
+.pec-nav-title h1 {
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: var(--violet-900, #4c1d95);
+  margin: 0 0 6px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pec-edit-visite-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  background: linear-gradient(135deg, #1e1b4b, #4338ca);
+  color: #fbbf24;
+  font-family: 'Courier New', Courier, monospace;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 6px rgba(30, 27, 75, 0.3);
+}
+
+.pec-patient-badge {
+  display: inline-block;
+  background: var(--violet-100, #ede9fe);
+  color: var(--violet-800, #5b21b6);
+  padding: 6px 16px;
+  border-radius: 9999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+/* En-tête de section avec badge d'étape */
+.pec-top-sections-row {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 18px;
+  align-items: stretch;
+  width: 100%;
+}
+
+.pec-patient-card-section,
+.pec-coverage-section {
+  padding: 18px 20px !important;
+  display: flex;
+  flex-direction: column;
+}
+
+.pec-patient-card-section {
+  background: linear-gradient(180deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+  border: 1px solid #bae6fd !important;
+  box-shadow: 0 2px 12px rgba(14, 165, 233, 0.08) !important;
+}
+
+.pec-coverage-section {
+  background: linear-gradient(180deg, #fff1f2 0%, #ffe4e6 100%) !important;
+  border: 1px solid #fecdd3 !important;
+  box-shadow: 0 2px 12px rgba(244, 63, 94, 0.08) !important;
+}
+
+.pec-block-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed var(--violet-200, #e9d5ff);
+}
+
+.pec-block-title .title-icon {
+  font-size: 1.25rem;
+  color: var(--violet-600, #7c3aed);
+}
+
+.pec-block-title h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--violet-900, #4c1d95);
+  margin: 0;
+  flex: 1;
+}
+
+.pec-step-badge {
+  background: linear-gradient(135deg, var(--violet-600, #7c3aed), var(--violet-800, #5b21b6));
+  color: white;
+  padding: 4px 10px;
+  border-radius: 14px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* 1. FICHE PATIENT */
+.pec-patient-card-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  border: 1px solid #bae6fd;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 6px rgba(14, 165, 233, 0.05);
+}
+
+.pec-patient-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+  box-shadow: 0 3px 8px rgba(2, 132, 199, 0.25);
+  flex-shrink: 0;
+}
+
+.pec-patient-main-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.pec-patient-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+}
+
+.pec-doit-label {
+  display: inline-flex;
+  align-items: center;
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  color: white;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  box-shadow: 0 2px 4px rgba(2, 132, 199, 0.2);
+}
+
+.pec-patient-title-row h2 {
+  margin: 0;
+  font-size: 1.18rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.pec-code-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #0284c7;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-family: monospace;
+}
+
+.pec-patient-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin: 0;
+  color: #334155;
+  font-size: 0.82rem;
+}
+
+.pec-patient-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pec-patient-meta .meta-icon {
+  color: #0284c7;
+  font-size: 0.82rem;
+}
+
+/* 2. SÉLECTION ASSURANCE */
+.pec-assurance-selector-block {
+  background: linear-gradient(180deg, #f0f9ff 0%, #e0f2fe 100%);
+  border: 1px solid #bae6fd;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-top: 4px;
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.05);
+}
+
+.pec-assurance-selector-block .pec-block-title {
+  border-bottom: 1px dashed #bae6fd;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+}
+
+.pec-assurance-selector-block .pec-block-title .title-icon {
+  color: #0284c7;
+}
+
+.pec-assurance-selector-block .pec-block-title h3 {
+  color: #0369a1;
+}
+
+.pec-assurance-selector-block .pec-step-badge {
+  background: linear-gradient(135deg, #0284c7, #0369a1);
+}
+
+.pec-assurance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.pec-assurance-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  background: white;
+  border: 1.5px solid #bae6fd;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.pec-assurance-card:hover {
+  border-color: #38bdf8;
+  background: #f8fafc;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(2, 132, 199, 0.12);
+}
+
+.pec-assurance-card.active {
+  border-color: #0284c7;
+  background: #ffffff;
+  box-shadow: 0 0 0 1.5px #0284c7, 0 3px 10px rgba(2, 132, 199, 0.18);
+}
+
+.pec-assurance-radio input {
+  cursor: pointer;
+  width: 15px;
+  height: 15px;
+  accent-color: #0284c7;
+  margin-top: 2px;
+}
+
+.pec-assurance-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.pec-assurance-info strong {
+  display: block;
+  font-size: 0.9rem;
+  color: #0f172a;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pec-matricule-info {
+  font-size: 0.78rem;
+  color: #475569;
+  margin-bottom: 3px;
+}
+
+.pec-matricule-info code {
+  background: #e0f2fe;
+  padding: 1px 5px;
+  border-radius: 4px;
+  color: #0369a1;
+  font-weight: 700;
+  font-size: 0.75rem;
+}
+
+.pec-tarifs-mini {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #334155;
+  margin-top: 3px;
+}
+
+.pec-tarifs-mini span {
+  background: #f0f9ff;
+  padding: 1px 5px;
+  border-radius: 4px;
+  border: 1px solid #bae6fd;
+  color: #0369a1;
+}
+
+.pec-selected-pill {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: #0284c7;
+  color: white;
+  font-size: 0.62rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 8px;
+  text-transform: uppercase;
+}
+
+.pec-no-patient-assurance {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #bae6fd;
+  color: #0369a1;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+
+.pec-select-inline {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  font-size: 0.85rem;
+  background: white;
+}
+
+/* 3. TYPE DE COUVERTURE */
+.pec-coverage-section .pec-block-title {
+  border-bottom: 1px dashed #fecdd3;
+}
+
+.pec-coverage-section .pec-block-title .title-icon {
+  color: #e11d48;
+}
+
+.pec-coverage-section .pec-block-title h3 {
+  color: #9f1239;
+}
+
+.pec-coverage-section .pec-step-badge {
+  background: linear-gradient(135deg, #e11d48, #be123c);
+}
+
+.pec-coverage-modes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.pec-mode-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: white;
+  border: 1.5px solid #fecdd3;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.pec-mode-btn:hover {
+  border-color: #fb7185;
+  background: #fff1f2;
+}
+
+.pec-mode-btn.active {
+  border-color: #e11d48;
+  background: #ffffff;
+  box-shadow: 0 0 0 1.5px #e11d48, 0 3px 10px rgba(225, 29, 72, 0.15);
+}
+
+.pec-mode-btn .mode-icon {
+  font-size: 1.35rem;
+  color: #e11d48;
+  background: #ffe4e6;
+  padding: 8px;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.pec-mode-btn .mode-text strong {
+  display: block;
+  font-size: 0.92rem;
+  color: #881337;
+  margin-bottom: 2px;
+}
+
+.pec-mode-btn .mode-text span {
+  display: block;
+  font-size: 0.76rem;
+  color: #64748b;
+  line-height: 1.3;
+}
+
+.pec-mode-btn .mode-check {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: #e11d48;
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 8px;
+}
+
+.pec-coverage-settings {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #fecdd3;
+  flex: 1;
+}
+
+.pec-setting-card label {
+  display: block;
+  font-size: 0.88rem;
+  color: #881337;
+  margin-bottom: 8px;
+}
+
+.pec-taux-input-group,
+.pec-forfait-input-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.pec-taux-input,
+.pec-forfait-input {
+  padding: 8px 12px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #881337;
+  border: 1.5px solid #fda4af;
+  border-radius: 8px;
+  width: 90px;
+  background: white;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.pec-taux-input:focus,
+.pec-forfait-input:focus {
+  border-color: #e11d48;
+  box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.15);
+}
+
+.pec-forfait-input {
+  width: 140px;
+}
+
+.taux-symbol,
+.currency-symbol {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #e11d48;
+}
+
+.pec-quick-taux {
+  display: flex;
+  gap: 6px;
+  margin-left: 6px;
+  flex-wrap: wrap;
+}
+
+.quick-taux-btn {
+  background: white;
+  border: 1px solid #fecdd3;
+  color: #be123c;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.quick-taux-btn:hover {
+  background: #ffe4e6;
+  border-color: #fda4af;
+}
+
+.quick-taux-btn.active {
+  background: #e11d48;
+  color: white;
+  border-color: #e11d48;
+}
+
+.pec-setting-hint {
+  font-size: 0.78rem;
+  color: #64748b;
+  margin: 8px 0 0 0;
+  line-height: 1.35;
+}
+
+/* 4. PANIER D'ACTES & CATALOGUE */
+.pec-cart-section {
+  width: 100%;
+}
+
+.pec-actes-layout {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 20px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+/* Catalogue d'actes à gauche */
+.pec-catalog-panel {
+  background: linear-gradient(180deg, #f0fdf4 0%, #dcfce7 100%);
+  border: 1px solid #bbf7d0;
+  border-radius: 16px;
+  padding: 18px 20px;
+}
+
+.pec-catalog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.pec-catalog-header h4 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--violet-900, #4c1d95);
+}
+
+.pec-custom-act-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: white;
+  color: var(--violet-700, #6d28d9);
+  border: 1px dashed var(--violet-400, #a78bfa);
+  padding: 6px 14px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pec-custom-act-btn:hover {
+  background: var(--violet-50, #f5f3ff);
+  border-color: var(--violet-600, #7c3aed);
+}
+
+.pec-manage-actes-btn {
+  background: white;
+  color: var(--violet-800, #5b21b6);
+  border: 1.5px solid var(--violet-300, #c4b5fd);
+  padding: 7px 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  box-shadow: 0 2px 5px rgba(109, 40, 217, 0.08);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  transition: all 0.2s ease;
+}
+
+.pec-manage-actes-btn:hover {
+  background: var(--violet-600, #7c3aed);
+  color: white;
+  border-color: var(--violet-600, #7c3aed);
+  box-shadow: 0 4px 10px rgba(109, 40, 217, 0.2);
+  transform: translateY(-1px);
+}
+
+.pec-gestion-actes-modal-container {
+  width: 100%;
+  max-height: 82vh;
+  overflow-y: auto;
+  padding: 2px;
+}
+
+.pec-gestion-actes-modal-container .management-page {
+  padding: 0;
+  width: 100%;
+}
+
+.pec-catalog-search {
+  position: relative;
+  margin-bottom: 14px;
+}
+
+.pec-catalog-search input {
+  width: 100%;
+  padding: 11px 40px 11px 40px;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  background: white;
+}
+
+.pec-catalog-search .search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+}
+
+.pec-catalog-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.catalog-tab-btn {
+  background: white;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.catalog-tab-btn:hover {
+  background: #f1f5f9;
+}
+
+.catalog-tab-btn.active {
+  background: var(--violet-700, #6d28d9);
+  color: white;
+  border-color: var(--violet-700, #6d28d9);
+}
+
+.pec-actes-list {
+  max-height: 520px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 4px;
+}
+
+.pec-act-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.pec-act-item:hover {
+  border-color: var(--violet-400, #a78bfa);
+  background: var(--violet-50, #fbfaff);
+  transform: translateX(2px);
+}
+
+/* État grisé / désactivé quand l'acte est déjà dans le panier */
+.pec-act-item.already-in-cart {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  opacity: 0.72;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none !important;
+}
+
+.pec-act-item.already-in-cart:hover {
+  border-color: #cbd5e1;
+  background: #f8fafc;
+  transform: none !important;
+}
+
+.pec-act-item.already-in-cart .pec-act-title {
+  color: #64748b;
+}
+
+.pec-act-item.already-in-cart .pec-act-price {
+  color: #94a3b8;
+}
+
+.pec-in-cart-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  background: #e2e8f0;
+  color: #475569;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-weight: 700;
+  border: 1px solid #cbd5e1;
+}
+
+.pec-act-item-left {
+  flex: 1;
+  margin-right: 12px;
+}
+
+.pec-act-title {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 4px;
+}
+
+.pec-act-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pec-act-category {
+  font-size: 0.75rem;
+  background: #f1f5f9;
+  color: #475569;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.pec-coeff-tag {
+  font-size: 0.75rem;
+  background: var(--violet-100, #ede9fe);
+  color: var(--violet-800, #5b21b6);
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+.pec-formula-tag {
+  font-size: 0.72rem;
+  background: #f8fafc;
+  color: #64748b;
+  border: 1px dashed #cbd5e1;
+  padding: 2px 7px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.pec-act-item-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pec-act-price {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--violet-900, #4c1d95);
+  white-space: nowrap;
+}
+
+.pec-add-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: var(--violet-100, #ede9fe);
+  color: var(--violet-700, #6d28d9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.pec-add-btn:hover:not(:disabled) {
+  background: var(--violet-600, #7c3aed);
+  color: white;
+}
+
+.pec-add-btn:disabled,
+.pec-add-btn.in-cart {
+  background: #e2e8f0;
+  color: #94a3b8;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Panier à droite */
+.pec-cart-table-panel {
+  background: cornsilk;
+  border: 1px solid #f5deb3;
+  border-radius: 16px;
+  padding: 18px 20px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+  min-width: 0;
+  width: 100%;
+}
+
+.pec-cart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.pec-cart-title-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pec-cart-title-group h4 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--violet-950, #2e1065);
+}
+
+.cart-count-pill {
+  background: var(--violet-600, #7c3aed);
+  color: white;
+  padding: 3px 12px;
+  border-radius: 14px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.pec-clear-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fee2e2;
+  color: #b91c1c;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pec-clear-btn:hover {
+  background: #fca5a5;
+}
+
+.pec-cart-wrapper {
+  max-height: 540px;
+  overflow-x: auto;
+  overflow-y: auto;
+  width: 100%;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+}
+
+.pec-cart-table {
+  width: 100%;
+  min-width: 100%;
+}
+
+.pec-cart-table th,
+.pec-cart-table td {
+  padding: 12px 14px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.pec-cart-table th.th-assurance {
+  background: #f5f3ff;
+  color: var(--violet-800, #5b21b6);
+}
+
+.pec-cart-table th.th-patient {
+  background: #eff6ff;
+  color: #1e40af;
+}
+
+.cart-item-coeff {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--violet-700, #6d28d9);
+  background: var(--violet-100, #ede9fe);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.cart-item-subtags {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 3px;
+}
+
+.cart-item-formula {
+  font-size: 0.75rem;
+  color: #64748b;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.pec-category-pill {
+  font-size: 0.8rem;
+  background: #f1f5f9;
+  color: #475569;
+  padding: 3px 10px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.cart-input-price {
+  width: 105px;
+  padding: 6px 8px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-align: right;
+  background: white;
+}
+
+/* Commutateur de type de PEC par acte dans le panier */
+.cart-type-toggle {
+  display: inline-flex;
+  align-items: center;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 2px;
+  gap: 2px;
+}
+
+.cart-type-btn {
+  border: none;
+  background: transparent;
+  color: #64748b;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.cart-type-btn:hover {
+  color: var(--violet-900, #4c1d95);
+}
+
+.cart-type-btn.active {
+  background: var(--violet-600, #7c3aed);
+  color: white;
+  box-shadow: 0 1px 3px rgba(124, 58, 237, 0.25);
+}
+
+/* Groupe de saisie Taux / Forfait */
+.cart-val-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.cart-input-taux {
+  width: 58px;
+  padding: 6px 6px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--violet-800, #5b21b6);
+  background: white;
+}
+
+.cart-input-forfait {
+  width: 90px;
+  padding: 6px 8px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-align: right;
+  color: var(--violet-800, #5b21b6);
+  background: white;
+}
+
+.cart-unit-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #64748b;
+}
+
+/* En-tête de catégorie dans le tableau du panier */
+.pec-cart-category-header td {
+  background: linear-gradient(90deg, #f5f3ff 0%, #faf8ff 100%);
+  padding: 8px 14px;
+  border-top: 1px solid #e9d5ff;
+  border-bottom: 1px solid #e9d5ff;
+}
+
+.cat-header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cat-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cat-header-name {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--violet-900, #4c1d95);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cat-header-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: var(--violet-200, #ddd6fe);
+  color: var(--violet-900, #4c1d95);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.cat-header-rate-tools {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1.5px solid var(--violet-300, #c4b5fd);
+  border-radius: 8px;
+  padding: 3px 10px;
+  box-shadow: 0 1px 4px rgba(124, 58, 237, 0.08);
+  margin-left: auto;
+}
+
+.cat-rate-title {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--violet-900, #2e1065);
+  white-space: nowrap;
+}
+
+.cat-rate-input {
+  width: 72px;
+  padding: 2px 6px;
+  border: 1.5px solid var(--violet-300, #c4b5fd);
+  border-radius: 6px;
+  font-size: 0.84rem;
+  font-weight: 800;
+  text-align: right;
+  color: var(--violet-950, #1e1b4b);
+  background: white;
+  outline: none;
+  transition: all 0.15s ease;
+}
+
+.cat-rate-input:focus {
+  border-color: var(--violet-600, #7c3aed);
+  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2);
+}
+
+.cat-rate-input::-webkit-outer-spin-button,
+.cat-rate-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.cat-rate-input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+.cat-rate-unit {
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: var(--violet-700, #6d28d9);
+  white-space: nowrap;
+}
+
+.cat-rate-hint {
+  font-size: 0.72rem;
+  color: #64748b;
+  font-style: italic;
+  white-space: nowrap;
+}
+
+/* Ligne d'acte */
+.pec-cart-item-row td {
+  background: white;
+}
+
+.pec-cart-item-row:hover td {
+  background: #fdfcff;
+}
+
+.cart-item-info {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.cart-act-name {
+  color: #1e293b;
+  font-size: 0.92rem;
+}
+
+/* Wrapper d'édition directe de Coût B / Coût Z / Coût K dans le panier */
+.cart-rate-edit-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #faf8ff;
+  border: 1.5px solid var(--violet-200, #ddd6fe);
+  border-radius: 8px;
+  padding: 2px 7px;
+  margin-top: 2px;
+  transition: all 0.2s ease;
+}
+
+.cart-rate-edit-wrapper:hover {
+  border-color: var(--violet-400, #a78bfa);
+  box-shadow: 0 2px 6px rgba(124, 58, 237, 0.1);
+  background: #ffffff;
+}
+
+.cart-rate-edit-wrapper:focus-within {
+  border-color: var(--violet-600, #7c3aed);
+  box-shadow: 0 0 0 2.5px rgba(124, 58, 237, 0.18);
+  background: #ffffff;
+}
+
+.cart-coeff-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.cart-coeff-badge.coeff-b {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
+.cart-coeff-badge.coeff-z {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+
+.cart-coeff-badge.coeff-k {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.cart-rate-times {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #94a3b8;
+  user-select: none;
+}
+
+.cart-rate-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.cart-rate-lbl {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--text-muted, #64748b);
+  white-space: nowrap;
+}
+
+.cart-inline-rate-input {
+  width: 62px;
+  padding: 2px 5px;
+  border: 1px solid #cbd5e1;
+  border-radius: 5px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--violet-950, #1e1b4b);
+  background: white;
+  text-align: right;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.cart-inline-rate-input:focus {
+  border-color: var(--violet-600, #7c3aed);
+}
+
+.cart-inline-rate-input::-webkit-outer-spin-button,
+.cart-inline-rate-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.cart-inline-rate-input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+.cart-rate-unit {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #64748b;
+  user-select: none;
+}
+
+/* Ligne de sous-total par catégorie */
+.pec-cart-subtotal-row td {
+  background: linear-gradient(90deg, #ffedd5 0%, #fff7ed 60%, #ffedd5 100%);
+  padding: 10px 14px;
+  border-top: 1.5px solid #fed7aa;
+  border-bottom: 2px solid #fdba74;
+  font-size: 13.5px;
+}
+
+.subtotal-header-line {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.subtotal-category-label {
+  color: #9a3412;
+  font-size: 0.92rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.subtotal-practitioner-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: white;
+  border: 1.5px solid #fed7aa;
+  border-radius: 8px;
+  padding: 3px 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+}
+
+.subtotal-practitioner-control:focus-within {
+  border-color: #f97316;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+}
+
+.subtotal-practitioner-control.medecin {
+  border-color: #ddd6fe;
+  background: #faf5ff;
+}
+
+.subtotal-practitioner-control.medecin:focus-within {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.18);
+}
+
+.subtotal-practitioner-control.prescripteur {
+  border-color: #bbf7d0;
+  background: #f0fdf4;
+}
+
+.subtotal-practitioner-control.prescripteur:focus-within {
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.18);
+}
+
+.subtotal-practitioner-control.generic {
+  border-color: #e2e8f0;
+  background: #f8fafc;
+}
+
+.subtotal-practitioner-control.generic:focus-within {
+  border-color: #64748b;
+  box-shadow: 0 0 0 3px rgba(100, 116, 139, 0.15);
+}
+
+.practitioner-icon {
+  font-size: 0.85rem;
+  color: #ea580c;
+  flex-shrink: 0;
+}
+
+.subtotal-practitioner-control.medecin .practitioner-icon {
+  color: #7c3aed;
+}
+
+.subtotal-practitioner-control.prescripteur .practitioner-icon {
+  color: #059669;
+}
+
+.subtotal-practitioner-control.generic .practitioner-icon {
+  color: #475569;
+}
+
+.practitioner-label {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #475569;
+  white-space: nowrap;
+}
+
+.subtotal-practitioner-control.medecin .practitioner-label {
+  color: #6d28d9;
+}
+
+.subtotal-practitioner-control.prescripteur .practitioner-label {
+  color: #047857;
+}
+
+.practitioner-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.practitioner-select-input {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  outline: none;
+  background: white;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #1e293b;
+  max-width: 250px;
+  min-width: 175px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.practitioner-select-input:hover {
+  border-color: rgba(0, 0, 0, 0.22);
+}
+
+.practitioner-select-input:focus {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.15);
+}
+
+.subtotal-practitioner-control.prescripteur .practitioner-select-input:focus {
+  border-color: #10b981;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.15);
+}
+
+.practitioner-add-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  border-radius: 6px;
+  border: 1px solid #c4b5fd;
+  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+  color: white;
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 3px rgba(109, 40, 217, 0.2);
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.practitioner-add-btn:hover {
+  background: linear-gradient(135deg, #6d28d9 0%, #5b21b6 100%);
+  transform: scale(1.08);
+  box-shadow: 0 2px 5px rgba(109, 40, 217, 0.35);
+}
+
+.subtotal-practitioner-control.prescripteur .practitioner-add-btn {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  border-color: #a7f3d0;
+  box-shadow: 0 1px 3px rgba(5, 150, 105, 0.2);
+}
+
+.subtotal-practitioner-control.prescripteur .practitioner-add-btn:hover {
+  background: linear-gradient(135deg, #047857 0%, #065f46 100%);
+  box-shadow: 0 2px 5px rgba(5, 150, 105, 0.35);
+}
+
+.subtotal-practitioner-control.generic .practitioner-add-btn {
+  background: linear-gradient(135deg, #475569 0%, #334155 100%);
+  border-color: #cbd5e1;
+  box-shadow: 0 1px 3px rgba(71, 85, 105, 0.2);
+}
+
+.subtotal-practitioner-control.generic .practitioner-add-btn:hover {
+  background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
+}
+
+.practitioner-clear-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #94a3b8;
+  padding: 3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.practitioner-clear-btn:hover {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.subtotal-title-cell strong {
+  color: #9a3412;
+  font-size: 0.92rem;
+  font-weight: 800;
+}
+
+.subtotal-brut-cell strong {
+  color: #9a3412;
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+
+.subtotal-count-cell {
+  color: #c2410c;
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.subtotal-assurance-cell strong {
+  color: #047857;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.subtotal-patient-cell strong {
+  color: #1d4ed8;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+/* Barre récapitulative des sous-totaux par type d'acte */
+.pec-subtotals-summary {
+  margin-top: 14px;
+  padding: 12px 16px;
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+}
+
+.pec-subtotals-title h5 {
+  margin: 0 0 8px 0;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.pec-subtotals-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pec-subtotal-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.chip-cat {
+  font-weight: 800;
+  color: #334155;
+}
+
+.chip-practitioner {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #334155;
+}
+
+.chip-practitioner.chip-medecin {
+  background: #f5f3ff;
+  border-color: #ddd6fe;
+  color: #6d28d9;
+}
+
+.chip-practitioner.chip-prescripteur {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+  color: #047857;
+}
+
+.chip-divider {
+  color: #cbd5e1;
+}
+
+.chip-brut {
+  font-weight: 600;
+  color: #334155;
+}
+
+.chip-ass {
+  font-weight: 700;
+}
+
+.chip-pat {
+  font-weight: 700;
+}
+
+.cart-qty-control {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.qty-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.qty-btn:hover {
+  background: #e2e8f0;
+}
+
+.qty-val {
+  min-width: 22px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.92rem;
+}
+
+.price-bold {
+  color: var(--violet-950, #2e1065);
+  font-weight: 700;
+}
+
+.td-assurance {
+  background: #faf8ff;
+}
+
+.assurance-amount {
+  font-weight: 700;
+  color: #059669;
+}
+
+.td-patient {
+  background: #f8faff;
+}
+
+.patient-amount {
+  font-weight: 700;
+  color: #2563eb;
+}
+
+.cart-delete-btn {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 6px;
+  font-size: 1rem;
+  transition: color 0.15s ease;
+}
+
+.cart-delete-btn:hover {
+  color: #ef4444;
+}
+
+.empty-cart-state {
+  padding: 48px 20px;
+  text-align: center;
+  color: #64748b;
+}
+
+.empty-cart-icon {
+  font-size: 3rem;
+  color: #cbd5e1;
+  margin-bottom: 14px;
+}
+
+.empty-cart-state strong {
+  display: block;
+  font-size: 1.2rem;
+  color: #334155;
+  margin-bottom: 8px;
+}
+
+.empty-cart-state p {
+  font-size: 0.95rem;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+/* 5. BLOC DE SYNTHÈSE FINANCIÈRE */
+.pec-summary-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.pec-summary-card {
+  padding: 22px 26px;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 140px;
+}
+
+.pec-summary-card.card-total {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+  color: white;
+}
+
+.pec-summary-card.card-assurance {
+  background: linear-gradient(135deg, #064e3b 0%, #047857 100%);
+  color: white;
+}
+
+.pec-summary-card.card-patient {
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+  color: white;
+}
+
+.card-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  opacity: 0.85;
+  margin-bottom: 8px;
+}
+
+.card-value {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 6px;
+}
+
+.card-desc {
+  font-size: 0.88rem;
+  opacity: 0.8;
+}
+
+.pec-validation-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+/* Bandeau N° Visite + Sous-factures */
+.pec-visite-banner {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border: 1.5px solid #334155;
+  border-radius: 14px;
+  padding: 18px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+}
+
+.pec-visite-header-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+}
+
+.pec-visite-numero {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pec-visite-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #94a3b8;
+}
+
+.pec-visite-value {
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #f8fafc;
+  letter-spacing: 0.04em;
+  font-family: 'Courier New', Courier, monospace;
+  background: rgba(124, 58, 237, 0.25);
+  padding: 4px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(124, 58, 237, 0.4);
+}
+
+.pec-visite-dossier-value {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #38bdf8;
+  letter-spacing: 0.03em;
+  font-family: 'Courier New', Courier, monospace;
+  background: rgba(56, 189, 248, 0.15);
+  padding: 4px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+}
+
+.pec-sousfactures-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.pec-sousfacture-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #e2e8f0;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.pec-sousfacture-chip strong {
+  color: #7dd3fc;
+  font-weight: 800;
+  font-size: 0.88rem;
+}
+
+.pec-visite-banner-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 2px;
+}
+
+.pec-banner-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.pec-banner-btn-back {
+  background: rgba(255, 255, 255, 0.12);
+  color: #f8fafc;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.pec-banner-btn-back:hover {
+  background: rgba(255, 255, 255, 0.22);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.pec-banner-btn-visites {
+  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+  color: white;
+  border: 1px solid #8b5cf6;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35);
+}
+
+.pec-banner-btn-visites:hover {
+  background: linear-gradient(135deg, #6d28d9 0%, #5b21b6 100%);
+  box-shadow: 0 6px 16px rgba(124, 58, 237, 0.5);
+  transform: translateY(-1px);
+}
+
+.pec-validation-form {
+  background: #f8fafc;
+  padding: 20px 24px;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+}
+
+.pec-form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+}
+
+.pec-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, var(--violet-600, #7c3aed), var(--violet-800, #5b21b6));
+  color: white;
+  border: none;
+  padding: 13px 26px;
+  border-radius: 12px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
+}
+
+.pec-submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(124, 58, 237, 0.35);
+}
+
+.pec-submit-btn:disabled {
+  background: #94a3b8;
+  color: #e2e8f0;
+  opacity: 0.65;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.pec-print-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  color: var(--violet-800, #5b21b6);
+  border: 1.5px solid var(--violet-300, #c4b5fd);
+  padding: 13px 22px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pec-print-btn:hover:not(:disabled) {
+  background: var(--violet-50, #f5f3ff);
+  border-color: var(--violet-600, #7c3aed);
+}
+
+.pec-cancel-btn {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 10px 16px;
+}
+
+.pec-cancel-btn:hover {
+  color: #1e293b;
+}
+
+/* 6. HISTORIQUE */
+.pec-history-table-wrapper {
+  max-height: 440px;
+  overflow-x: auto;
+  overflow-y: auto;
+  border: 1px solid #f1f5f9;
+  border-radius: 10px;
+}
+
+.pec-history-table th,
+.pec-history-table td {
+  padding: 12px 14px;
+  font-size: 14px;
+}
+.pec-type-badge {
+  display: inline-block;
+  background: #f1f5f9;
+  color: #334155;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.text-assurance {
+  color: #059669;
+  font-weight: 700;
+}
+
+.text-patient {
+  color: #2563eb;
+  font-weight: 700;
+}
+
+/* 7. FORMAT D'IMPRESSION DU BON DE PRISE EN CHARGE */
+.pec-print-wrapper {
+  background: white;
+  padding: 24px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  color: #1e293b;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+.pec-print-header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid var(--violet-700, #6d28d9);
+  padding-bottom: 16px;
+  margin-bottom: 20px;
+}
+
+.print-clinic-logo h2 {
+  font-size: 1.6rem;
+  color: var(--violet-900, #4c1d95);
+  margin: 0 0 2px 0;
+}
+
+.print-clinic-logo span {
+  font-size: 0.9rem;
+  color: #475569;
+  font-weight: 600;
+}
+
+.print-clinic-logo p {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin: 4px 0 0 0;
+}
+
+.print-doc-meta {
+  text-align: right;
+}
+
+.print-doc-meta h3 {
+  margin: 0 0 6px 0;
+  color: var(--violet-900, #4c1d95);
+  font-size: 1.2rem;
+}
+
+.print-doc-meta p {
+  margin: 2px 0;
+  font-size: 0.85rem;
+}
+
+.print-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.print-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.print-box h4 {
+  margin: 0 0 10px 0;
+  font-size: 0.85rem;
+  color: var(--violet-800, #5b21b6);
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 4px;
+}
+
+.print-box p {
+  margin: 4px 0;
+  font-size: 0.85rem;
+}
+
+.print-table-wrapper {
+  margin-bottom: 30px;
+}
+
+.print-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.print-table th {
+  background: #f1f5f9;
+  padding: 8px 10px;
+  font-size: 0.85rem;
+  text-align: left;
+  border: 1px solid #cbd5e1;
+}
+
+.print-table td {
+  padding: 8px 10px;
+  font-size: 0.85rem;
+  border: 1px solid #e2e8f0;
+}
+
+.print-subtotals-divider td {
+  background: #f1f5f9;
+  font-size: 0.8rem;
+  color: var(--violet-900, #4c1d95);
+  padding: 6px 10px;
+  border-top: 2px solid #cbd5e1;
+}
+
+.print-subtotal-row td {
+  background: #ffedd5;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-top: 1px solid #fed7aa;
+  border-bottom: 1.5px solid #fdba74;
+}
+
+.print-subtotal-label-box {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.print-subtotal-practitioner-tag {
+  font-size: 0.8rem;
+  color: #7c2d12;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.print-total-row td {
+  background: #f8fafc;
+  border-top: 2px solid #cbd5e1;
+  font-size: 0.95rem;
+  padding: 10px;
+}
+
+.print-signatures {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.sig-box {
+  text-align: center;
+  border-top: 1px dashed #94a3b8;
+  padding-top: 8px;
+}
+
+.sig-box span {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.sig-named {
+  display: block;
+  font-size: 0.82rem;
+  color: #1e293b;
+  font-weight: 700;
+  margin-top: 3px;
+}
+
+.sig-space {
+  height: 50px;
+}
+
+/* Media query responsive */
+@media (max-width: 1024px) {
+  .pec-top-sections-row {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .pec-actes-layout {
+    grid-template-columns: 1fr;
+  }
+  .pec-summary-cards {
+    grid-template-columns: 1fr;
+  }
+  .pec-coverage-modes {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,18 +1,41 @@
 import { useEffect, useState } from 'react'
-import { FaEdit, FaTrash, FaSearch, FaFileMedical } from 'react-icons/fa'
+import {
+  FaEdit,
+  FaTrash,
+  FaSearch,
+  FaFileMedical,
+  FaPlus,
+  FaUserInjured,
+  FaIdCard,
+  FaPhoneAlt,
+  FaCalendarAlt,
+  FaMapMarkerAlt,
+  FaBriefcase,
+  FaShieldAlt,
+  FaHandshake,
+  FaTimes,
+  FaFolderOpen,
+  FaListUl,
+} from 'react-icons/fa'
 import PageHeader from '../components/PageHeader'
 import Modal from '../components/Modal'
 import PatientForm from '../components/PatientForm'
-import PriseEnChargeForm from '../components/PriseEnChargeForm'
+import DossierPatientModal from '../components/DossierPatientModal'
+import ListeVisitesModal from '../components/ListeVisitesModal'
+import PriseEnChargePage from './PriseEnChargePage'
 import { patientsApi } from '../api/patientsApi'
 import { assurancesApi } from '../api/assurancesApi'
+import { formatDate } from '../utils/dateUtils'
 import '../styles/table.css'
+import '../styles/form.css'
 import './Patients.css'
 
-const formatDate = (isoDate) => {
-  if (!isoDate) return null
-  const [year, month, day] = isoDate.split('-')
-  return `${day}/${month}/${year}`
+function getInitials(nom, prenom) {
+  const n = (nom || '').trim()
+  const p = (prenom || '').trim()
+  const first = n ? n[0].toUpperCase() : ''
+  const second = p ? p[0].toUpperCase() : ''
+  return `${first}${second}` || 'P'
 }
 
 function Patients() {
@@ -33,6 +56,9 @@ function Patients() {
   const [cardError, setCardError] = useState(null)
 
   const [priseEnChargePatient, setPriseEnChargePatient] = useState(null)
+  const [editingVisite, setEditingVisite] = useState(null)
+  const [dossierModalPatient, setDossierModalPatient] = useState(null)
+  const [isVisitesListOpen, setIsVisitesListOpen] = useState(false)
 
   const loadData = async (query = searchTerm) => {
     setLoading(true)
@@ -75,8 +101,9 @@ function Patients() {
   const openEditForm = (patient) => {
     setEditingPatient({
       ...patient,
-      assurances: patient.assurances.map((a) => ({
+      assurances: (patient.assurances || []).map((a) => ({
         assuranceId: a.assuranceId,
+        garantId: a.garantId || '',
         numeroMatricule: a.numeroMatricule || '',
       })),
     })
@@ -90,11 +117,38 @@ function Patients() {
   }
 
   const openPriseEnCharge = (patient) => {
+    setEditingVisite(null)
     setPriseEnChargePatient(patient)
   }
 
   const closePriseEnCharge = () => {
+    const wasEditing = !!editingVisite
     setPriseEnChargePatient(null)
+    setEditingVisite(null)
+    if (wasEditing) {
+      setIsVisitesListOpen(true)
+    }
+  }
+
+  const handleEditVisiteFromList = async (visite) => {
+    setIsVisitesListOpen(false)
+    let pat = patients.find((p) => p.id === visite.patientId)
+    if (!pat) {
+      try {
+        pat = await patientsApi.get(visite.patientId)
+      } catch (err) {
+        console.error('Erreur récupération patient:', err)
+      }
+    }
+    const patientObj = pat || {
+      id: visite.patientId,
+      nom: visite.patientNom || '',
+      prenom: visite.patientPrenom || '',
+      numeroDossier: visite.patientNumeroDossier || '',
+      assurances: [],
+    }
+    setEditingVisite(visite)
+    setPriseEnChargePatient(patientObj)
   }
 
   const openCardModal = (patient) => {
@@ -134,6 +188,24 @@ function Patients() {
   const handleSubmit = async (payload) => {
     setSubmitting(true)
     setFormError(null)
+
+    if (payload.nom && payload.numeroTelephone) {
+      const nomClean = payload.nom.trim().toLowerCase()
+      const telClean = payload.numeroTelephone.trim().toLowerCase()
+      const duplicate = patients.find((p) => {
+        if (editingPatient && p.id === editingPatient.id) return false
+        return (
+          p.nom?.trim().toLowerCase() === nomClean &&
+          p.numeroTelephone?.trim().toLowerCase() === telClean
+        )
+      })
+      if (duplicate) {
+        setFormError('Un patient avec le même nom et le même numéro de téléphone existe déjà.')
+        setSubmitting(false)
+        return
+      }
+    }
+
     try {
       if (editingPatient) {
         await patientsApi.update(editingPatient.id, payload)
@@ -161,139 +233,284 @@ function Patients() {
     }
   }
 
+  if (priseEnChargePatient) {
+    return (
+      <PriseEnChargePage
+        patient={priseEnChargePatient}
+        initialVisite={editingVisite}
+        onBack={closePriseEnCharge}
+        onPatientUpdated={() => loadData(searchTerm)}
+      />
+    )
+  }
+
   return (
-    <main className="patients-page">
+    <main className="management-page patients-management-page">
       <PageHeader
         title="Patients"
-        subtitle="Liste des patients enregistrés à la clinique"
+        subtitle="Gestion des dossiers médicaux, coordonnées et affiliations d'assurance"
       />
 
-      <div className="search-bar-wrapper">
-        <div className="search-bar">
+      <section className="management-section patient-section">
+        <div className="section-title-row">
+          <div className="section-title-group">
+            <span className="section-icon patient-icon">
+              <FaUserInjured />
+            </span>
+            <div>
+              <h2>Répertoire des Patients</h2>
+              <p className="section-subtitle">
+                Fiches d'identité, contacts, cartes et historique de couverture médicale
+              </p>
+            </div>
+            <span className="count-pill">
+              {patients.length} patient{patients.length > 1 ? 's' : ''}
+            </span>
+          </div>
+          <div className="section-actions-group">
+            <button
+              type="button"
+              className="btn-visites-list-header"
+              onClick={() => setIsVisitesListOpen(true)}
+              title="Consulter l'historique de toutes les visites médicales"
+            >
+              <FaListUl /> Liste des visites
+            </button>
+            <button type="button" className="page-header-action" onClick={openCreateForm}>
+              <FaPlus /> Nouveau patient
+            </button>
+          </div>
+        </div>
+
+        <div className="patient-search-toolbar">
           <div className="search-input-group">
             <FaSearch className="search-icon" />
             <input
               type="text"
-              placeholder="Rechercher par nom, prénom, téléphone ou code patient..."
+              placeholder="Rechercher par nom, prénom, téléphone, profession ou code..."
               value={searchTerm}
               onChange={handleSearchChange}
             />
+            {searchTerm && (
+              <button
+                type="button"
+                className="search-clear-btn"
+                onClick={() => setSearchTerm('')}
+                title="Effacer la recherche"
+              >
+                <FaTimes />
+              </button>
+            )}
           </div>
+          {searchTerm && (
+            <span className="search-result-count">
+              {patients.length} résultat{patients.length > 1 ? 's' : ''}
+            </span>
+          )}
         </div>
 
-        <button type="button" className="new-patient-button" onClick={openCreateForm}>
-          + Nouveau patient
-        </button>
-      </div>
-
-      <div className="data-table-wrapper">
-        <table className="data-table">
-          <thead>
-            <tr>
-              <th>Nom</th>
-              <th>Prénom</th>
-              <th>Date de naissance</th>
-              <th>Téléphone</th>
-              <th>Quartier</th>
-              <th>Profession</th>
-              <th>Assurances</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {loading && (
-              <>
-                {[...Array(5)].map((_, i) => (
-                  <tr key={`skeleton-${i}`} className="skeleton-row">
-                    <td><div className="skeleton-cell"></div></td>
-                    <td><div className="skeleton-cell"></div></td>
-                    <td><div className="skeleton-cell"></div></td>
-                    <td><div className="skeleton-cell"></div></td>
-                    <td><div className="skeleton-cell"></div></td>
-                    <td><div className="skeleton-cell"></div></td>
-                    <td><div className="skeleton-cell"></div></td>
-                    <td><div className="skeleton-cell"></div></td>
-                  </tr>
-                ))}
-              </>
-            )}
-            {!loading && loadError && (
-              <tr className="empty-row error-row">
-                <td colSpan={8}>
-                  <div className="error-message">
-                    <span>⚠️ Erreur : {loadError}</span>
-                  </div>
-                </td>
+        <div className="data-table-wrapper">
+          <table className="data-table">
+            <thead>
+              <tr>
+                <th>Patient</th>
+                <th>N° Dossier</th>
+                <th>Code Carte</th>
+                <th>Date de naissance</th>
+                <th>Téléphone</th>
+                <th>Quartier</th>
+                <th>Profession</th>
+                <th>Couverture Assurance</th>
+                <th className="text-right">Actions</th>
               </tr>
-            )}
-            {!loading && !loadError && patients.length === 0 && (
-              <tr className="empty-row">
-                <td colSpan={8}>
-                  <div className="empty-message">
-                    <span>Aucun patient enregistré pour le moment.</span>
-                  </div>
-                </td>
-              </tr>
-            )}
-            {!loading &&
-              !loadError &&
-              patients.map((patient) => (
-                <tr key={patient.id}>
-                  <td>{patient.nom}</td>
-                  <td>{patient.prenom}</td>
-                  <td>{formatDate(patient.dateNaissance) || '—'}</td>
-                  <td>{patient.numeroTelephone || '—'}</td>
-                  <td>{patient.quartier || '—'}</td>
-                  <td>{patient.profession || '—'}</td>
-                  <td>
-                    <div className="table-badges">
-                      {patient.assurances.length === 0 && '—'}
-                      {patient.assurances.map((a) => (
-                        <span key={a.assuranceId} className="table-badge">
-                          {a.libelle}
-                          {a.numeroMatricule ? ` · ${a.numeroMatricule}` : ''}
-                        </span>
-                      ))}
-                    </div>
-                  </td>
-                  <td>
-                    <div className="table-actions">
-                      <button
-                        type="button"
-                        className="table-action-btn"
-                        onClick={() => openCardModal(patient)}
-                        title={patient.code ? `Carte: ${patient.code}` : 'Associer une carte'}
-                      >
-                        🎫 {patient.code ? 'Carte' : 'Associer carte'}
-                      </button>
-                      <button
-                        type="button"
-                        className="table-action-btn"
-                        onClick={() => openEditForm(patient)}
-                      >
-                        <FaEdit /> Modifier
-                      </button>
-                      <button
-                        type="button"
-                        className="table-action-btn"
-                        onClick={() => openPriseEnCharge(patient)}
-                      >
-                        <FaFileMedical /> Prise en charge
-                      </button>
-                      <button
-                        type="button"
-                        className="table-action-btn danger"
-                        onClick={() => handleDelete(patient)}
-                      >
-                        <FaTrash />
-                      </button>
+            </thead>
+            <tbody>
+              {loading && (
+                <>
+                  {[...Array(5)].map((_, i) => (
+                    <tr key={`skeleton-${i}`} className="skeleton-row">
+                      <td><div className="skeleton-cell"></div></td>
+                      <td><div className="skeleton-cell"></div></td>
+                      <td><div className="skeleton-cell"></div></td>
+                      <td><div className="skeleton-cell"></div></td>
+                      <td><div className="skeleton-cell"></div></td>
+                      <td><div className="skeleton-cell"></div></td>
+                      <td><div className="skeleton-cell"></div></td>
+                      <td><div className="skeleton-cell"></div></td>
+                      <td><div className="skeleton-cell"></div></td>
+                    </tr>
+                  ))}
+                </>
+              )}
+              {!loading && loadError && (
+                <tr className="empty-row error-row">
+                  <td colSpan={9}>
+                    <div className="error-message">
+                      <span>⚠️ Erreur : {loadError}</span>
                     </div>
                   </td>
                 </tr>
-              ))}
-          </tbody>
-        </table>
-      </div>
+              )}
+              {!loading && !loadError && patients.length === 0 && (
+                <tr className="empty-row">
+                  <td colSpan={9}>
+                    <div className="empty-message">
+                      <span>Aucun patient trouvé. Cliquez sur "Nouveau patient" pour en créer un.</span>
+                    </div>
+                  </td>
+                </tr>
+              )}
+              {!loading &&
+                !loadError &&
+                patients.map((patient) => (
+                  <tr key={patient.id}>
+                    <td>
+                      <div className="patient-identity-cell">
+                        <div className="patient-avatar-circle">
+                          {getInitials(patient.nom, patient.prenom)}
+                        </div>
+                        <div className="patient-identity-info">
+                          <strong className="patient-name">
+                            {patient.nom} {patient.prenom}
+                          </strong>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <button
+                        type="button"
+                        className="code-pill dp-pill dp-interactive"
+                        onClick={() => setDossierModalPatient(patient)}
+                        title="Consulter et mettre à jour le dossier médical & les antécédents"
+                      >
+                        <FaFolderOpen className="pill-icon" />
+                        {patient.numeroDossier || `DP-${String(patient.id).padStart(7, '0')}`}
+                      </button>
+                    </td>
+                    <td>
+                      {patient.code ? (
+                        <span className="code-pill card-pill">
+                          <FaIdCard className="pill-icon" />
+                          {patient.code}
+                        </span>
+                      ) : (
+                        <button
+                          type="button"
+                          className="table-action-btn associate-card-chip"
+                          onClick={() => openCardModal(patient)}
+                          title="Associer une carte patient"
+                        >
+                          <FaIdCard /> + Carte
+                        </button>
+                      )}
+                    </td>
+                    <td>
+                      {patient.dateNaissance ? (
+                        <span className="cell-flex-item">
+                          <FaCalendarAlt className="cell-item-icon" />
+                          {formatDate(patient.dateNaissance)}
+                        </span>
+                      ) : (
+                        <span className="cell-muted">—</span>
+                      )}
+                    </td>
+                    <td>
+                      {patient.numeroTelephone ? (
+                        <span className="phone-pill">
+                          <FaPhoneAlt className="cell-item-icon" />
+                          {patient.numeroTelephone}
+                        </span>
+                      ) : (
+                        <span className="cell-muted">—</span>
+                      )}
+                    </td>
+                    <td>
+                      {patient.quartier ? (
+                        <span className="location-pill">
+                          <FaMapMarkerAlt className="cell-item-icon" />
+                          {patient.quartier}
+                        </span>
+                      ) : (
+                        <span className="cell-muted">—</span>
+                      )}
+                    </td>
+                    <td>
+                      {patient.profession ? (
+                        <span className="profession-pill">
+                          <FaBriefcase className="cell-item-icon" />
+                          {patient.profession}
+                        </span>
+                      ) : (
+                        <span className="cell-muted">—</span>
+                      )}
+                    </td>
+                    <td>
+                      <div className="table-badges">
+                        {patient.assurances.length === 0 ? (
+                          <span className="cell-muted">Sans assurance</span>
+                        ) : (
+                          patient.assurances.map((a) => (
+                            <span key={a.assuranceId} className="patient-assurance-badge">
+                              <FaShieldAlt className="badge-shield-icon" />
+                              <span className="assurance-name">{a.libelle}</span>
+                              {a.garantLibelle && (
+                                <span className="garant-tag" title="Garant rattaché">
+                                  <FaHandshake className="garant-tag-icon" />
+                                  {a.garantLibelle}
+                                </span>
+                              )}
+                              {a.numeroMatricule && (
+                                <span className="matricule-tag" title="N° Matricule de l'assuré">{a.numeroMatricule}</span>
+                              )}
+                            </span>
+                          ))
+                        )}
+                      </div>
+                    </td>
+                    <td>
+                      <div className="table-actions justify-end">
+                        {patient.code && (
+                          <button
+                            type="button"
+                            className="table-action-btn"
+                            onClick={() => openCardModal(patient)}
+                            title={`Modifier la carte: ${patient.code}`}
+                          >
+                            <FaIdCard /> Carte
+                          </button>
+                        )}
+                        <button
+                          type="button"
+                          className="table-action-btn"
+                          onClick={() => openEditForm(patient)}
+                          title="Modifier les informations"
+                        >
+                          <FaEdit /> Modifier
+                        </button>
+                        <button
+                          type="button"
+                          className="table-action-btn pec-action-btn"
+                          onClick={() => openPriseEnCharge(patient)}
+                          title="Créer une nouvelle visite / prise en charge"
+                        >
+                          <FaFileMedical /> Nouvelle visite
+                        </button>
+                        <button
+                          type="button"
+                          className="table-action-btn danger"
+                          onClick={() => handleDelete(patient)}
+                          title="Supprimer le dossier patient"
+                        >
+                          <FaTrash />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
 
       {isFormOpen && (
         <Modal
@@ -311,96 +528,59 @@ function Patients() {
         </Modal>
       )}
 
-      {priseEnChargePatient && (
-        <Modal
-          title={`Prise en charge — ${priseEnChargePatient.prenom} ${priseEnChargePatient.nom}`}
-          onClose={closePriseEnCharge}
-          size="large"
-        >
-          <PriseEnChargeForm patient={priseEnChargePatient} />
-        </Modal>
-      )}
-
       {cardPatient && (
         <Modal
           title={`Associer une carte — ${cardPatient.prenom} ${cardPatient.nom}`}
           onClose={closeCardModal}
+          size="medium"
         >
-          <form onSubmit={handleAssociateCard} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-            {cardError && (
-              <div style={{
-                padding: 12,
-                background: '#fdecea',
-                color: '#c0392b',
-                borderRadius: 8,
-                fontSize: 14,
-              }}>
-                {cardError}
+          <form onSubmit={handleAssociateCard}>
+            {cardError && <div className="form-error-banner">{cardError}</div>}
+            <div className="form-grid">
+              <div className="form-field full-width">
+                <label htmlFor="card-code-input">Code de la carte patient</label>
+                <input
+                  id="card-code-input"
+                  type="text"
+                  autoFocus
+                  placeholder="Ex: ALPH-2024-001"
+                  value={cardCode}
+                  onChange={(e) => setCardCode(e.target.value)}
+                  required
+                />
               </div>
-            )}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <label style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-dark)' }}>
-                Code de la carte patient
-              </label>
-              <input
-                type="text"
-                autoFocus
-                placeholder="Ex: ALPH-2024-001"
-                value={cardCode}
-                onChange={(e) => setCardCode(e.target.value)}
-                style={{
-                  padding: 12,
-                  border: '1px solid var(--violet-200)',
-                  borderRadius: 8,
-                  fontSize: 15,
-                  fontFamily: 'inherit',
-                  color: 'var(--text-dark)',
-                }}
-              />
             </div>
-            <div style={{ display: 'flex', gap: 12, justifyContent: 'flex-end' }}>
-              <button
-                type="button"
-                onClick={closeCardModal}
-                style={{
-                  padding: '10px 24px',
-                  border: 'none',
-                  background: 'var(--violet-50)',
-                  color: 'var(--violet-700)',
-                  borderRadius: 8,
-                  cursor: 'pointer',
-                  fontSize: 14,
-                  fontWeight: 600,
-                  transition: 'all 0.2s',
-                }}
-                onMouseEnter={(e) => e.target.style.background = 'var(--violet-100)'}
-                onMouseLeave={(e) => e.target.style.background = 'var(--violet-50)'}
-              >
+            <div className="form-actions">
+              <button type="button" className="btn-secondary" onClick={closeCardModal}>
                 Annuler
               </button>
-              <button
-                type="submit"
-                disabled={cardSubmitting}
-                style={{
-                  padding: '10px 24px',
-                  border: 'none',
-                  background: 'var(--violet-600)',
-                  color: 'white',
-                  borderRadius: 8,
-                  cursor: cardSubmitting ? 'not-allowed' : 'pointer',
-                  fontSize: 14,
-                  fontWeight: 600,
-                  transition: 'all 0.2s',
-                  opacity: cardSubmitting ? 0.7 : 1,
-                }}
-                onMouseEnter={(e) => !cardSubmitting && (e.target.style.background = 'var(--violet-700)')}
-                onMouseLeave={(e) => !cardSubmitting && (e.target.style.background = 'var(--violet-600)')}
-              >
-                {cardSubmitting ? 'Association...' : 'Associer'}
+              <button type="submit" className="btn-primary" disabled={cardSubmitting}>
+                {cardSubmitting ? 'Association...' : 'Associer la carte'}
               </button>
             </div>
           </form>
         </Modal>
+      )}
+
+      {dossierModalPatient && (
+        <Modal
+          title={`Dossier Médical & Antécédents — ${dossierModalPatient.prenom} ${dossierModalPatient.nom}`}
+          onClose={() => setDossierModalPatient(null)}
+          size="large"
+        >
+          <DossierPatientModal
+            patient={dossierModalPatient}
+            onClose={() => setDossierModalPatient(null)}
+            onDossierUpdated={() => loadData(searchTerm)}
+          />
+        </Modal>
+      )}
+
+      {isVisitesListOpen && (
+        <ListeVisitesModal
+          onClose={() => setIsVisitesListOpen(false)}
+          onEditVisite={handleEditVisiteFromList}
+        />
       )}
     </main>
   )

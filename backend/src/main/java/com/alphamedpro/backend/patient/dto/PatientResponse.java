@@ -14,9 +14,14 @@ public record PatientResponse(
         String quartier,
         String profession,
         String code,
+        Long dossierId,
+        String numeroDossier,
         List<PatientAssuranceResponse> assurances
 ) {
     public static PatientResponse from(Patient patient) {
+        Long dossierId = patient.getDossierPatient() != null ? patient.getDossierPatient().getId() : null;
+        String numeroDossier = patient.getDossierPatient() != null ? patient.getDossierPatient().getNumeroDossier() : null;
+
         return new PatientResponse(
                 patient.getId(),
                 patient.getNom(),
@@ -26,6 +31,8 @@ public record PatientResponse(
                 patient.getQuartier(),
                 patient.getProfession(),
                 patient.getCode(),
+                dossierId,
+                numeroDossier,
                 patient.getAssurances().stream().map(PatientAssuranceResponse::from).toList()
         );
     }

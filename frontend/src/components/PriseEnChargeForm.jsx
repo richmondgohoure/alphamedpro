@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { FaTrash } from 'react-icons/fa'
 import { priseEnChargeApi } from '../api/priseEnChargeApi'
+import { formatDateTime, getCurrentDateTimeLocal } from '../utils/dateUtils'
 import '../styles/form.css'
 import '../styles/table.css'
 
@@ -17,12 +18,6 @@ const STATUT_LABELS = {
   EN_ATTENTE: 'En attente',
   ACCEPTEE: 'Acceptée',
   REFUSEE: 'Refusée',
-}
-
-const formatDate = (isoDate) => {
-  if (!isoDate) return null
-  const [year, month, day] = isoDate.split('-')
-  return `${day}/${month}/${year}`
 }
 
 function PriseEnChargeForm({ patient }) {
@@ -96,12 +91,12 @@ function PriseEnChargeForm({ patient }) {
         <table className="data-table">
           <thead>
             <tr>
-              <th>Date</th>
+              <th>Date & Heure</th>
               <th>Assurance</th>
               <th>Motif</th>
               <th>Montant</th>
               <th>Statut</th>
-              <th></th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -124,7 +119,7 @@ function PriseEnChargeForm({ patient }) {
               !loadError &&
               prisesEnCharge.map((priseEnCharge) => (
                 <tr key={priseEnCharge.id}>
-                  <td>{formatDate(priseEnCharge.dateDemande) || '—'}</td>
+                  <td>{formatDateTime(priseEnCharge.dateDemande)}</td>
                   <td>{priseEnCharge.assuranceLibelle || '—'}</td>
                   <td>{priseEnCharge.motif}</td>
                   <td>{priseEnCharge.montant ?? '—'}</td>
@@ -163,8 +158,8 @@ function PriseEnChargeForm({ patient }) {
             </select>
           </div>
           <div className="form-field">
-            <label>Date de la demande</label>
-            <input type="date" value={values.dateDemande} onChange={handleChange('dateDemande')} required />
+            <label>Date & Heure de la demande</label>
+            <input type="datetime-local" value={values.dateDemande} onChange={handleChange('dateDemande')} required />
           </div>
           <div className="form-field">
             <label>Motif</label>

@@ -1,7 +1,10 @@
 import { FaTimes } from 'react-icons/fa'
 import './Modal.css'
 
-function Modal({ title, onClose, children, size = 'medium' }) {
+function Modal({ title, onClose, children, size = 'medium', isOpen }) {
+  if (isOpen !== undefined && !isOpen) {
+    return null
+  }
   return (
     <div className="modal-backdrop" onClick={onClose}>
       <div className={`modal-panel modal-${size}`} onClick={(e) => e.stopPropagation()}>

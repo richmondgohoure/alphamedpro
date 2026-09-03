@@ -2,7 +2,11 @@ package com.alphamedpro.backend.patient;
 
 import com.alphamedpro.backend.assurance.Assurance;
 import com.alphamedpro.backend.assurance.AssuranceRepository;
+import com.alphamedpro.backend.common.DuplicateResourceException;
 import com.alphamedpro.backend.common.ResourceNotFoundException;
+import com.alphamedpro.backend.dossierpatient.DossierPatientService;
+import com.alphamedpro.backend.garant.Garant;
+import com.alphamedpro.backend.garant.GarantRepository;
 import com.alphamedpro.backend.patient.dto.PatientAssuranceRequest;
 import com.alphamedpro.backend.patient.dto.PatientRequest;
 import com.alphamedpro.backend.patient.dto.PatientResponse;
@@ -20,6 +24,8 @@ public class PatientService {
 
     private final PatientRepository patientRepository;
     private final AssuranceRepository assuranceRepository;
+    private final GarantRepository garantRepository;
+    private final DossierPatientService dossierPatientService;
 
     public List<PatientResponse> findAll(String query) {
         List<Patient> patients;
@@ -36,13 +42,18 @@ public class PatientService {
     }
 
     public PatientResponse create(PatientRequest request) {
+        checkDuplicate(request.nom(), request.numeroTelephone(), null);
         Patient patient = new Patient();
         applyRequest(patient, request);
-        return PatientResponse.from(patientRepository.save(patient));
+        Patient savedPatient = patientRepository.save(patient);
+        // Créer automatiquement le dossier patient avec ses antécédents par défaut à 'Non'
+        dossierPatientService.createDossierForPatient(savedPatient);
+        return PatientResponse.from(savedPatient);
     }
 
     public PatientResponse update(Long id, PatientRequest request) {
         Patient patient = getOrThrow(id);
+        checkDuplicate(request.nom(), request.numeroTelephone(), id);
         applyRequest(patient, request);
         return PatientResponse.from(patientRepository.save(patient));
     }
@@ -50,6 +61,21 @@ public class PatientService {
     public void delete(Long id) {
         Patient patient = getOrThrow(id);
         patientRepository.delete(patient);
+    }
+
+    private void checkDuplicate(String nom, String numeroTelephone, Long excludeId) {
+        if (nom == null || nom.isBlank() || numeroTelephone == null || numeroTelephone.isBlank()) {
+            return;
+        }
+        String cleanNom = nom.trim();
+        String cleanTel = numeroTelephone.trim();
+        boolean exists = (excludeId == null)
+                ? patientRepository.existsByNomAndNumeroTelephoneIgnoreCase(cleanNom, cleanTel)
+                : patientRepository.existsByNomAndNumeroTelephoneIgnoreCaseAndIdNot(cleanNom, cleanTel, excludeId);
+
+        if (exists) {
+            throw new DuplicateResourceException("Un patient avec le même nom et le même numéro de téléphone existe déjà.");
+        }
     }
 
     Patient getOrThrow(Long id) {
@@ -76,6 +102,12 @@ public class PatientService {
                 PatientAssurance patientAssurance = new PatientAssurance();
                 patientAssurance.setPatient(patient);
                 patientAssurance.setAssurance(assurance);
+                if (assuranceRequest.garantId() != null) {
+                    Garant garant = garantRepository.findById(assuranceRequest.garantId()).orElse(null);
+                    patientAssurance.setGarant(garant);
+                } else {
+                    patientAssurance.setGarant(null);
+                }
                 patientAssurance.setNumeroMatricule(assuranceRequest.numeroMatricule());
                 patient.getAssurances().add(patientAssurance);
             }

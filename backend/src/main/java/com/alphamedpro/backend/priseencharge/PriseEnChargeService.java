@@ -69,6 +69,13 @@ public class PriseEnChargeService {
         priseEnCharge.setDateDemande(request.dateDemande());
         priseEnCharge.setMotif(request.motif());
         priseEnCharge.setMontant(request.montant());
+        priseEnCharge.setTypeCouverture(request.typeCouverture());
+        priseEnCharge.setTauxCouverture(request.tauxCouverture());
+        priseEnCharge.setMontantForfait(request.montantForfait());
+        priseEnCharge.setMontantTotal(request.montantTotal());
+        priseEnCharge.setPartAssurance(request.partAssurance());
+        priseEnCharge.setPartPatient(request.partPatient());
+        priseEnCharge.setDetailsActes(request.detailsActes());
         priseEnCharge.setStatut(request.statut() != null ? request.statut() : StatutPriseEnCharge.EN_ATTENTE);
         priseEnCharge.setObservation(request.observation());
     }
